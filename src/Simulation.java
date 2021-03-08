@@ -15,8 +15,8 @@ public class Simulation {
         Body sun = new Body("Sol",
                 1.989e30,
                 696340e3,
-                new Vector3(0,0,0),
-                new Vector3(0,0,0),
+                new Vector3(),
+                new Vector3(),
                 StdDraw.YELLOW);
 
         Body earth = new Body("Earth",
@@ -32,10 +32,24 @@ public class Simulation {
                 new Vector3(-46.0e9, 0, 0),
                 new Vector3(0, -47.87e3, 0),
                 StdDraw.RED);
+
+        Body jupiter = new Body("Jupiter",
+                1898.19e24,
+                71492e3,
+                new Vector3(740.522e9, 0, 0),
+                new Vector3(0, 13.72e3, 0),
+                StdDraw.ORANGE);
+
+        Body moon = new Body("Moon",
+                0.07346e24,
+                1738.1e3,
+                new Vector3(148e9 + 6371e3 + 0.4055e9, 0.4055e9, 0),
+                new Vector3(0, 1.022e3, 0),
+                StdDraw.LIGHT_GRAY);
         // arbitrary initialisation: position opposite to the earth with maximal distance.
         // viewing from z direction movement is counter-clockwise
 
-        Body[] bodies = new Body[] {earth, sun, mercury};
+        Body[] bodies = new Body[] {earth, sun, mercury, jupiter};
         Vector3[] forceOnBody = new Vector3[bodies.length];
 
         StdDraw.setCanvasSize(500, 500);
@@ -70,17 +84,17 @@ public class Simulation {
             // show all movements in StdDraw canvas only every 3 hours (to speed up the simulation)
             if (seconds%(3*3600) == 0) {
                 // clear old positions (exclude the following line if you want to draw orbits).
-                //StdDraw.clear(StdDraw.BLACK);
+                StdDraw.clear(StdDraw.BLACK);
 
                 // draw new positions
                 for (int i = 0; i < bodies.length; i++) {
                     bodies[i].draw();
-                            // use log10 because of large variation of radii.
                 }
 
                 // show new positions
                 StdDraw.show();
             }
+
 
         }
 
