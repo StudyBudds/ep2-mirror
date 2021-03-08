@@ -4,9 +4,9 @@ import java.awt.*;
 public class Vector3 {
 
     //TODO: change modifiers.
-    public double x;
-    public double y;
-    public double z;
+    private double x;
+    private double y;
+    private double z;
 
     //TODO: define constructor.
     public Vector3(double x, double y, double z) {
@@ -33,12 +33,16 @@ public class Vector3 {
     // Returns the Euclidean distance of this vector
     // to the specified vector 'v'.
     public double distanceTo(Vector3 v) {
-        return minus(v).length();
+        double dX = this.x-v.x;
+        double dY = this.y-v.y;
+        double dZ = this.z-v.z;
+
+        return Math.sqrt(dX*dX+dY*dY+dZ*dZ);
     }
 
     // Returns the length (norm) of this vector.
     public double length() {
-        return Math.sqrt(Math.pow(this.x + this.y + this.z, 2));
+        return this.distanceTo(new Vector3(0,0,0));
     }
 
     // Normalizes this vector: changes the length of this vector such that it becomes 1.
