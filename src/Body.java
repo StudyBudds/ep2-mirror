@@ -1,18 +1,24 @@
 import java.awt.*;
-import java.util.Vector;
 
 // This class represents celestial bodies like stars, planets, asteroids, etc..
 public class Body {
 
     //TODO: change modifiers.
-    public String name;
-    public double mass;
-    public double radius;
-    public Vector3 position; // position of the center.
-    public Vector3 currentMovement;
-    public Color color; // for drawing the body.
+    private String name;
+    private double mass;
+    private double radius;
+    private Vector3 position; // position of the center.
+    private Vector3 currentMovement;
+    private Color color; // for drawing the body.
 
-    //TODO: define constructor.
+    public Body(String name, double mass, double radius, Vector3 position, Vector3 currentMovement, Color color) {
+        this.name = name;
+        this.mass = mass;
+        this.radius = radius;
+        this.position = position;
+        this.currentMovement = currentMovement;
+        this.color = color;
+    }
 
     // Returns the distance between this body and the specified 'body'.
     public double distanceTo(Body body) {
