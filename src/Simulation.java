@@ -11,33 +11,29 @@ public class Simulation {
     // The main simulation method using instances of other classes.
     public static void main(String[] args) {
 
-        //TODO: change implementation of this method according to 'Aufgabe1.md'.
 
-        Body sun = new Body();
-        sun.name = "Sol";
-        sun.mass = 1.989e30; // kg
-        sun.radius = 696340e3; // meters
-        sun.position = new Vector3(0, 0,0);
-        sun.currentMovement = new Vector3(0,0,0);
-        sun.color = StdDraw.YELLOW;
+        Body sun = new Body("Sol",
+                1.989e30,
+                696340e3,
+                new Vector3(0,0,0),
+                new Vector3(0,0,0),
+                StdDraw.YELLOW);
 
-        Body earth = new Body();
-        earth.name = "Earth";
-        earth.mass = 5.972e24; // kg
-        earth.radius = 6371e3; // meters
-        earth.position = new Vector3(148e9, 0, 0);
-        earth.currentMovement = new Vector3(0, 29.29e3, 0);
-        earth.color = StdDraw.BLUE;
+        Body earth = new Body("Earth",
+                5.972e24,
+                6371e3,
+                new Vector3(148e9, 0, 0),
+                new Vector3(0, 29.29e3, 0),
+                StdDraw.BLUE);
 
-        Body mercury = new Body();
-        mercury.name = "Mercury";
-        mercury.mass = 3.301e23;
-        mercury.radius = 2.4397e3;
-        mercury.position = new Vector3(-46.0e9, 0, 0);
-        mercury.currentMovement = new Vector3(0, -47.87e3, 0);
+        Body mercury = new Body("Mercury",
+                3.301e23,
+                2.4397e3,
+                new Vector3(-46.0e9, 0, 0),
+                new Vector3(0, -47.87e3, 0),
+                StdDraw.RED);
         // arbitrary initialisation: position opposite to the earth with maximal distance.
         // viewing from z direction movement is counter-clockwise
-        mercury.color = StdDraw.RED;
 
         Body[] bodies = new Body[] {earth, sun, mercury};
         Vector3[] forceOnBody = new Vector3[bodies.length];
@@ -60,39 +56,25 @@ public class Simulation {
                 forceOnBody[i] = new Vector3(0, 0, 0); // begin with zero
                 for (int j = 0; j < bodies.length; j++) {
                     if (i == j) continue;
-                    Vector3 forceToAdd = gravitationalForce(bodies[i], bodies[j]);
-                    forceOnBody[i] = plus(forceOnBody[i],forceToAdd);
+                    Vector3 forceToAdd = bodies[i].gravitationalForce(bodies[j]);
+                    forceOnBody[i] = forceOnBody[i].plus(forceToAdd);
                 }
             }
             // now forceOnBody[i] holds the force vector exerted on body with index i.
 
             // for each body (with index i): move it according to the total force exerted on it.
             for (int i = 0; i < bodies.length; i++) {
-                Vector3 newPosition = plus(
-                                            plus(bodies[i].position,
-                                                 times(forceOnBody[i], 1/bodies[i].mass)
-                                                 // F = m*a -> a = F/m
-                                            ),
-                                            bodies[i].currentMovement
-                                      );
-
-                Vector3 newMovement = minus(newPosition,bodies[i].position); // new minus old position.
-
-                bodies[i].position = newPosition;
-                bodies[i].currentMovement = newMovement;
-
+               bodies[i].move(forceOnBody[i]);
             }
 
             // show all movements in StdDraw canvas only every 3 hours (to speed up the simulation)
             if (seconds%(3*3600) == 0) {
                 // clear old positions (exclude the following line if you want to draw orbits).
-                StdDraw.clear(StdDraw.BLACK);
+                //StdDraw.clear(StdDraw.BLACK);
 
                 // draw new positions
                 for (int i = 0; i < bodies.length; i++) {
-                    StdDraw.setPenColor(bodies[i].color);
-                    StdDraw.filledCircle(bodies[i].position.x, bodies[i].position.y,
-                            1e9*Math.log10(bodies[i].radius));
+                    bodies[i].draw();
                             // use log10 because of large variation of radii.
                 }
 
@@ -104,78 +86,11 @@ public class Simulation {
 
     }
 
-    //TODO: remove static methods below.
-
     // Returns a vector representing the gravitational force exerted by body 'b2' on body 'b1'.
     // The gravitational Force F is calculated by F = G*(m1*m2)/(r*r), with m1 and m2 being the masses of the objects
     // interacting, r being the distance between the centers of the masses and G being the gravitational constant.
     // To calculate the force exerted on b1, simply multiply the normalized vector pointing from b1 to b2 with the
     // calculated force
-    public static Vector3 gravitationalForce(Body b1, Body b2) {
-        Vector3 direction = minus(b2.position,b1.position);
-        double distance = length(direction);
-        normalize(direction);
-        double force = G*b1.mass*b2.mass/(distance * distance);
-        return times(direction,force);
-    }
-
-    // Returns the norm of v1-v2.
-    public static double distance(Vector3 v1, Vector3 v2) {
-        double dX = v1.x-v2.x;
-        double dY = v1.y-v2.y;
-        double dZ = v1.z-v2.z;
-
-        return Math.sqrt(dX*dX+dY*dY+dZ*dZ);
-    }
-
-    // Returns v1+v2.
-    public static Vector3 plus(Vector3 v1, Vector3 v2) {
-
-        Vector3 result = new Vector3(0, 0, 0);
-        result.x = v1.x+v2.x;
-        result.y = v1.y+v2.y;
-        result.z = v1.z+v2.z;
-
-        return result;
-    }
-
-    // Returns v1-v2.
-    public static Vector3 minus(Vector3 v1, Vector3 v2) {
-
-        Vector3 result = new Vector3(0,0,0);
-        result.x = v1.x-v2.x;
-        result.y = v1.y-v2.y;
-        result.z = v1.z-v2.z;
-
-        return result;
-    }
-
-    // Returns v*d.
-    public static Vector3 times(Vector3 v, double d) {
-
-        Vector3 result = new Vector3(0,0,0);
-        result.x = v.x*d;
-        result.y = v.y*d;
-        result.z = v.z*d;
-
-        return result;
-    }
-
-    // Returns the norm of 'v'.
-    public static double length(Vector3 v) {
-
-        return distance(v,new Vector3(0,0,0)); // distance to origin.
-    }
-
-    // Normalizes the specified vector 'v': changes the length of the vector such that its length
-    // becomes one. The direction and orientation of the vector is not affected.
-    public static void normalize(Vector3 v) {
-
-        double length = length(v);
-        v.x/=length;
-        v.y/=length;
-        v.z/=length;
-    }
 
 }
 
