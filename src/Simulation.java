@@ -17,46 +17,26 @@ public class Simulation {
         sun.name = "Sol";
         sun.mass = 1.989e30; // kg
         sun.radius = 696340e3; // meters
-        sun.position = new Vector3();
-        sun.currentMovement = new Vector3();
-        sun.position.x = 0; // meters
-        sun.position.y = 0;
-        sun.position.z = 0;
-        // sun is the reference point and assumed not to move.
-        sun.currentMovement.x = 0;
-        sun.currentMovement.y = 0;
-        sun.currentMovement.z = 0;
+        sun.position = new Vector3(0, 0,0);
+        sun.currentMovement = new Vector3(0,0,0);
         sun.color = StdDraw.YELLOW;
 
         Body earth = new Body();
         earth.name = "Earth";
         earth.mass = 5.972e24; // kg
         earth.radius = 6371e3; // meters
-        earth.position = new Vector3();
-        earth.currentMovement = new Vector3();
-        earth.position.x = 148e9; // minimal distance to sun in meters.
-        earth.position.y = 0;
-        earth.position.z = 0;
-        // viewing from z direction movement is counter-clockwise
-        earth.currentMovement.x = 0;
-        earth.currentMovement.y = 29.29e3; // orbital speed in meters per second (at minimal distance).
-        earth.currentMovement.z = 0;
+        earth.position = new Vector3(148e9, 0, 0);
+        earth.currentMovement = new Vector3(0, 29.29e3, 0);
         earth.color = StdDraw.BLUE;
 
         Body mercury = new Body();
         mercury.name = "Mercury";
         mercury.mass = 3.301e23;
         mercury.radius = 2.4397e3;
-        mercury.position = new Vector3();
-        mercury.currentMovement = new Vector3();
+        mercury.position = new Vector3(-46.0e9, 0, 0);
+        mercury.currentMovement = new Vector3(0, -47.87e3, 0);
         // arbitrary initialisation: position opposite to the earth with maximal distance.
-        mercury.position.x = -46.0e9; // meters
-        mercury.position.y = 0;
-        mercury.position.z = 0;
         // viewing from z direction movement is counter-clockwise
-        mercury.currentMovement.x = 0;
-        mercury.currentMovement.y = -47.87e3; // meters per second
-        mercury.currentMovement.z = 0;
         mercury.color = StdDraw.RED;
 
         Body[] bodies = new Body[] {earth, sun, mercury};
@@ -77,7 +57,7 @@ public class Simulation {
 
             // for each body (with index i): compute the total force exerted on it.
             for (int i = 0; i < bodies.length; i++) {
-                forceOnBody[i] = new Vector3(); // begin with zero
+                forceOnBody[i] = new Vector3(0, 0, 0); // begin with zero
                 for (int j = 0; j < bodies.length; j++) {
                     if (i == j) continue;
                     Vector3 forceToAdd = gravitationalForce(bodies[i], bodies[j]);
@@ -151,7 +131,7 @@ public class Simulation {
     // Returns v1+v2.
     public static Vector3 plus(Vector3 v1, Vector3 v2) {
 
-        Vector3 result = new Vector3();
+        Vector3 result = new Vector3(0, 0, 0);
         result.x = v1.x+v2.x;
         result.y = v1.y+v2.y;
         result.z = v1.z+v2.z;
@@ -162,7 +142,7 @@ public class Simulation {
     // Returns v1-v2.
     public static Vector3 minus(Vector3 v1, Vector3 v2) {
 
-        Vector3 result = new Vector3();
+        Vector3 result = new Vector3(0,0,0);
         result.x = v1.x-v2.x;
         result.y = v1.y-v2.y;
         result.z = v1.z-v2.z;
@@ -173,7 +153,7 @@ public class Simulation {
     // Returns v*d.
     public static Vector3 times(Vector3 v, double d) {
 
-        Vector3 result = new Vector3();
+        Vector3 result = new Vector3(0,0,0);
         result.x = v.x*d;
         result.y = v.y*d;
         result.z = v.z*d;
@@ -184,7 +164,7 @@ public class Simulation {
     // Returns the norm of 'v'.
     public static double length(Vector3 v) {
 
-        return distance(v,new Vector3()); // distance to origin.
+        return distance(v,new Vector3(0,0,0)); // distance to origin.
     }
 
     // Normalizes the specified vector 'v': changes the length of the vector such that its length
