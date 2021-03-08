@@ -46,14 +46,12 @@ public class Body {
     // (Movement depends on the mass of this body, its current movement and the exerted force)
     // Hint: see simulation loop in Simulation.java to find out how this is done
     public void move(Vector3 force) {
-        Vector3 v1 = this.position.plus(force.times(1/this.mass));
-        Vector3 newPosition = this.currentMovement.plus(
-                v1
-        );
+        Vector3 newPosition = this.position
+                .plus(force.times(1/this.mass))
+                .plus(this.currentMovement);
         //Vector3 newMovement = this.position.minus(newPosition);
-        Vector3 newMovement = newPosition.minus(this.position); // new minus old position.
+        this.currentMovement = newPosition.minus(this.position); // new minus old position.
         this.position = newPosition;
-        this.currentMovement = newMovement;
     }
 
     // Returns a string with the information about this body including
