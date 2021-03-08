@@ -3,16 +3,20 @@ import java.awt.*;
 // This class represents vectors in a 3D vector space.
 public class Vector3 {
 
-    //TODO: change modifiers.
     private double x;
     private double y;
     private double z;
 
-    //TODO: define constructor.
     public Vector3(double x, double y, double z) {
         this.x = x;
         this.y = y;
         this.z = z;
+    }
+
+    public Vector3() {
+        this.x = 0;
+        this.y = 0;
+        this.z = 0;
     }
 
     // Returns the sum of this vector and vector 'v'.
@@ -42,7 +46,7 @@ public class Vector3 {
 
     // Returns the length (norm) of this vector.
     public double length() {
-        return this.distanceTo(new Vector3(0,0,0));
+        return this.distanceTo(new Vector3());
     }
 
     // Normalizes this vector: changes the length of this vector such that it becomes 1.
