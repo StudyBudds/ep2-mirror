@@ -55,6 +55,9 @@ public class Simulation {
         StdDraw.setCanvasSize(500, 500);
         StdDraw.setXscale(-2*AU,2*AU);
         StdDraw.setYscale(-2*AU,2*AU);
+        // To make Jupiter Visible, uncomment the lines below
+        //StdDraw.setXscale(-5*AU,5*AU);
+        //StdDraw.setYscale(-5*AU,5*AU);
         StdDraw.enableDoubleBuffering();
         StdDraw.clear(StdDraw.BLACK);
 
