@@ -61,8 +61,8 @@ public class Body {
 
         return this.name + ", " + this.mass
                 + " kg, radius: " + this.radius
-                + ", position: " + this.position.toString()
-                + "m, movement: " + this.currentMovement.toString() + " m/s";
+                + ", position: " + this.position
+                + "m, movement: " + this.currentMovement + " m/s";
     }
 
     // Draws the body to the current StdDraw canvas as a dot using 'color' of this body.
