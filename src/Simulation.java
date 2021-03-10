@@ -19,13 +19,6 @@ public class Simulation {
                 new Vector3(),
                 StdDraw.YELLOW);
 
-        Body earth = new Body("Earth",
-                5.972e24,
-                6371e3,
-                new Vector3(148e9, 0, 0),
-                new Vector3(0, 29.29e3, 0),
-                StdDraw.BLUE);
-
         Body mercury = new Body("Mercury",
                 3.301e23,
                 2.4397e3,
@@ -33,18 +26,25 @@ public class Simulation {
                 new Vector3(0, -47.87e3, 0),
                 StdDraw.RED);
 
+        Body earth = new Body("Earth",
+                5.972e24,
+                6371e3,
+                new Vector3(148e9, 0, 0),
+                new Vector3(0, 29.29e3, 0),
+                StdDraw.BLUE);
+
         Body jupiter = new Body("Jupiter",
                 1898.19e24,
                 71492e3,
                 new Vector3(740.522e9, 0, 0),
                 new Vector3(0, 13.72e3, 0),
                 StdDraw.ORANGE);
-
+        // moon does not really work as planned :(
         Body moon = new Body("Moon",
-                0.07346e24,
+                7.342e22,
                 1738.1e3,
-                new Vector3(148e9 + 6371e3 + 0.4055e9, 0.4055e9, 0),
-                new Vector3(0, 1.022e3, 0),
+                new Vector3(148e9 + 6371e3 + 405.4e8, 0.4055e9, 0),
+                new Vector3(0, 29.29e3 + 1.022e3, 0),
                 StdDraw.LIGHT_GRAY);
         // arbitrary initialisation: position opposite to the earth with maximal distance.
         // viewing from z direction movement is counter-clockwise
@@ -52,12 +52,13 @@ public class Simulation {
         Body[] bodies = new Body[] {earth, sun, mercury, jupiter};
         Vector3[] forceOnBody = new Vector3[bodies.length];
 
-        StdDraw.setCanvasSize(500, 500);
+        StdDraw.setCanvasSize(1000, 1000);
         StdDraw.setXscale(-2*AU,2*AU);
         StdDraw.setYscale(-2*AU,2*AU);
+
         // To make Jupiter Visible, uncomment the lines below
-        //StdDraw.setXscale(-5*AU,5*AU);
-        //StdDraw.setYscale(-5*AU,5*AU);
+        // StdDraw.setXscale(-5*AU,5*AU);
+        // StdDraw.setYscale(-5*AU,5*AU);
         StdDraw.enableDoubleBuffering();
         StdDraw.clear(StdDraw.BLACK);
 
