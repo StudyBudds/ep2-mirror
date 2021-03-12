@@ -112,6 +112,20 @@ public class Simulation {
 
 }
 
-//TODO: answer additional questions of 'Aufgabe1'.
+/*
+F: Was versteht man unter Datenkapselung? Geben Sie ein Beispiel, wo dieses Konzept in dieser Aufgabenstellung angewendet wird.
+
+A: Die Zusammenfassung von Attributen und Methoden in einem abstraktem Datentypen.
+B: Bei der Vektor3 Klasse werden Koordinaten im 3-dimensionalen Raum zusammengefasst in einem abstrakten Datentyp.
+
+
+F: Was versteht man unter Data Hiding? Geben Sie ein Beispiel, wo dieses Konzept in dieser Aufgabenstellung angewendet wird.
+A: Das Ändern der Sichtbarkeiten der Objektvariablen auf private und dadurch das Verhindern des direkten Zugriffs auf diese.
+   Der Zugriff auf das Objekt erfolgt nur noch über Schnittstellen die durch Methoden implementiert sind.
+   Dadurch wird die interne Logik der Klasse wegabstrahiert und verhindert, das im Code ein Wert eines Objekts gesetzt wird ohne abhänige Objektvariablen zu verändern
+B: Zum Beispiel die Body Klasse. Alle Objektvariablen sind private und z.B. position kann nur über die Methode move verändert werden, wodurch garantiert wird das auch currentMovement
+   korrekt verändert wird.
+
+ */
 
 
