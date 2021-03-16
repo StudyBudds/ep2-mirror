@@ -52,7 +52,7 @@ public class Simulation {
         Body[] bodies = new Body[] {earth, sun, mercury, jupiter};
         Vector3[] forceOnBody = new Vector3[bodies.length];
 
-        StdDraw.setCanvasSize(1000, 1000);
+        StdDraw.setCanvasSize(500, 500);
         StdDraw.setXscale(-2*AU,2*AU);
         StdDraw.setYscale(-2*AU,2*AU);
 
