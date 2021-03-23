@@ -3,7 +3,6 @@ import java.awt.*;
 // This class represents celestial bodies like stars, planets, asteroids, etc..
 public class Body {
 
-    //TODO: change modifiers.
     private String name;
     private double mass;
     private double radius;
@@ -71,6 +70,10 @@ public class Body {
     // Hint: use the method drawAsDot implemented in Vector3 for this
     public void draw() {
         this.position.drawAsDot(1e9*Math.log10(this.radius), this.color);
+    }
+
+    public String getName() {
+        return this.name;
     }
 
 }
