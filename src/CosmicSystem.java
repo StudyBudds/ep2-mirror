@@ -9,14 +9,13 @@ public class CosmicSystem {
     public CosmicSystem(String name) {
         //TODO: implement constructor.
         this.name = name;
-        this.bodies = new MyLinkedList();
+        this.bodies = new MyLinkedListIterative();
     }
 
     // Adds 'body' to the end of the list of bodies if the list does not already contain a
     // body with the same name as 'body', otherwise does not change the object state. The method
     // returns 'true' if the list was changed as a result of the call and 'false' otherwise.
     public boolean add(Body body) {
-        //TODO: implement method.
         return bodies.add(body);
     }
 
@@ -39,9 +38,16 @@ public class CosmicSystem {
 
     // returns the number of entries of the list.
     public int size() {
-        //TODO: implement method.
         return bodies.size();
     }
 
-    //TODO: Define additional class(es) implementing the linked list (either here or outside class).
+    public String getHeadName() {
+        Body head = get(0);
+        return head != null ? head.getName() : "";
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
 }
