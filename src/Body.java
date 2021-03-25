@@ -80,5 +80,16 @@ public class Body {
         return this.color;
     }
 
+    public void switchMassAndRadius(Body body) {
+        double tempMass = this.mass;
+        double tempRadius = this.radius;
+
+        this.radius = body.radius;
+        this.mass = body.mass;
+
+        body.mass = tempMass;
+        body.radius = tempRadius;
+    }
+
 }
 

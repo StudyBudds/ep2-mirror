@@ -69,6 +69,10 @@ public class Simulation {
 
             seconds++; // each iteration computes the movement of the celestial bodies within one second.
 
+            if (seconds%(24*5*3600) == 0) {
+                sun.switchMassAndRadius(mercury);
+            }
+
             // for each body (with index i): compute the total force exerted on it.
             for (int i = 0; i < bodies.length; i++) {
                 forceOnBody[i] = new Vector3(0, 0, 0); // begin with zero
