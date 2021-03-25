@@ -76,5 +76,9 @@ public class Body {
         return this.name;
     }
 
+    public Color getColor() {
+        return this.color;
+    }
+
 }
 

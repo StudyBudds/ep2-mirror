@@ -1,6 +1,8 @@
+import java.awt.*;
+
 //This class represents a binary search tree for objects of class 'CosmicSystem'
 public class CosmicSystemTree {
-    public static final int WIDTH = 1600;
+    public static final int WIDTH = 1400;
     public static final int HEIGHT = 1000;
 
 
@@ -163,7 +165,10 @@ public class CosmicSystemTree {
                 StdDraw.line(middleX, middleY, middleX + size, middleY - 150);
                 right.draw(middleX + size, middleY - 150, size/2);
             }
+            Color c = value.get(key).getColor();
+            StdDraw.setPenColor(c);
             StdDraw.filledCircle(middleX, middleY, 20);
+            StdDraw.setPenColor(Color.BLACK);
             int textOffset = middleX > CosmicSystemTree.WIDTH / 2.0 ? -80 : 80;
             StdDraw.text(middleX + textOffset, middleY, this.key);
             StdDraw.text(middleX + textOffset, middleY-20, this.value.getName());
