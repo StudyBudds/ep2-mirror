@@ -10,6 +10,7 @@ public class CosmicSystem {
         //TODO: implement constructor.
         this.name = name;
         this.bodies = new MyLinkedListIterative();
+        //this.bodies = new MyLinkedListRecursive(); // uncomment this line to switch the LinkedListImplementation to Recursive
     }
 
     // Adds 'body' to the end of the list of bodies if the list does not already contain a
