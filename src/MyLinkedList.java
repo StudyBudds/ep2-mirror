@@ -6,4 +6,14 @@ public interface MyLinkedList {
     Body find(String name);
 
     int size();
+
+    boolean add(int i, Body body);
+
+    boolean remove(int i);
+
+    boolean remove(Body b);
+
+    MyLinkedList reverse();
+
+    String toString();
 }

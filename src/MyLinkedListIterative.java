@@ -1,12 +1,12 @@
 public class MyLinkedListIterative implements MyLinkedList {
 
-    private MyNodeIterative head;
+    private MyNodeIterative head, tail;
     private int size;
 
     @Override
     public boolean add(Body body) {
         if(head == null) {
-            head = new MyNodeIterative(body);
+            tail = head = new MyNodeIterative(body);
             size++;
             return true;
         }
@@ -21,6 +21,7 @@ public class MyLinkedListIterative implements MyLinkedList {
             return false;
         }
         curr.setNext(new MyNodeIterative(body));
+        tail = tail.next;
         size++;
         return true;
     }
@@ -55,12 +56,28 @@ public class MyLinkedListIterative implements MyLinkedList {
     @Override
     public int size() {
         int size = 0;
-        MyNodeIterative curr = head;
-        while(curr != null) {
-            size++;
-            curr = curr.getNext();
-        }
+        for(MyNodeIterative curr = head; curr != null; curr = curr.getNext(), size++);
         return size;
+    }
+
+    @Override
+    public boolean add(int i, Body body) {
+        return false;
+    }
+
+    @Override
+    public boolean remove(int i) {
+        return false;
+    }
+
+    @Override
+    public boolean remove(Body b) {
+        return false;
+    }
+
+    @Override
+    public MyLinkedList reverse() {
+        return null;
     }
 
     public class MyNodeIterative {
