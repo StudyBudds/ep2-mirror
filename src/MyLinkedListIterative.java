@@ -94,6 +94,7 @@ public class MyLinkedListIterative implements MyLinkedList {
         }
         else if(i == 1) {
             curr.setNext(new MyNodeIterative(body, curr));
+            tail = tail.getNext();
             size++;
             return true;
         }
@@ -124,6 +125,7 @@ public class MyLinkedListIterative implements MyLinkedList {
         }
         if(i == 0) {
             curr.getPrev().setNext(null);
+            tail = tail.getPrev();
             return true;
         }
         return false;
@@ -153,6 +155,7 @@ public class MyLinkedListIterative implements MyLinkedList {
         }
         if(curr.getVal().getName().equals(b.getName())) {
             curr.getPrev().setNext(null);
+            tail = tail.getPrev();
             return true;
         }
         return false;
