@@ -6,8 +6,7 @@ public class Body {
     private String name;
     private double mass;
     private double radius;
-    private Vector3 position; // position of the center.
-    private Vector3 currentMovement;
+    private Vector3 position, currentMovement, force;
     private Color color; // for drawing the body.
 
     public Body(String name, double mass, double radius, Vector3 position, Vector3 currentMovement, Color color) {
@@ -53,6 +52,15 @@ public class Body {
         this.position = newPosition;
     }
 
+    public void move() {
+        Vector3 newPosition = this.position
+                .plus(force.times(1/this.mass))
+                .plus(this.currentMovement);
+        //Vector3 newMovement = this.position.minus(newPosition);
+        this.currentMovement = newPosition.minus(this.position); // new minus old position.
+        this.position = newPosition;
+    }
+
     // Returns a string with the information about this body including
     // name, mass, radius, position and current movement. Example:
     // "Earth, 5.972E24 kg, radius: 6371000.0 m, position: [1.48E11,0.0,0.0] m, movement: [0.0,29290.0,0.0] m/s."
@@ -78,6 +86,10 @@ public class Body {
 
     public Color getColor() {
         return this.color;
+    }
+
+    public void setForce(Vector3 force) {
+        this.force = force;
     }
 
     public void switchMassAndRadius(Body body) {
