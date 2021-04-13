@@ -8,8 +8,8 @@ public class CosmicSystem {
     // Initialises this system as an empty system with a name.
     public CosmicSystem(String name) {
         //TODO: implement constructor.
-        //this(name, new MyLinkedListIterative());
-        this(name, new MyLinkedListRecursive());
+        this(name, new MyLinkedListIterative());
+        //this(name, new MyLinkedListRecursive());
         this.name = name;
         //this.bodies = new MyLinkedListIterative();
         //this.bodies = new MyLinkedListRecursive(); // uncomment this line to switch the LinkedListImplementation to Recursive
