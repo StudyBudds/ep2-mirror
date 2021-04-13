@@ -11,7 +11,7 @@ public class MyLinkedListIterative implements MyLinkedList {
             return true;
         }
         MyNodeIterative curr = head;
-        while(curr.hasNext()) {
+        while(curr != tail) {
             if(curr.getVal().getName().equals(body.getName())) {
                 return false;
             }
@@ -21,7 +21,7 @@ public class MyLinkedListIterative implements MyLinkedList {
             return false;
         }
         curr.setNext(new MyNodeIterative(body, curr));
-        tail = tail.next;
+        tail = tail.getNext();
         size++;
         return true;
     }
@@ -31,7 +31,7 @@ public class MyLinkedListIterative implements MyLinkedList {
         MyNodeIterative curr = head;
         while(curr != null) {
             if(i == 0) {
-                return curr.val;
+                return curr.getVal();
             }
             curr = curr.getNext();
             i--;
@@ -53,8 +53,6 @@ public class MyLinkedListIterative implements MyLinkedList {
 
     @Override
     public int size() {
-        int size = 0;
-        for(MyNodeIterative curr = head; curr != null; curr = curr.getNext(), size++);
         return size;
     }
 
@@ -65,12 +63,17 @@ public class MyLinkedListIterative implements MyLinkedList {
         }
         if(i == 0) {
             head.setPrev(new MyNodeIterative(body));
-            head = head.prev;
+            head = head.getPrev();
+            size++;
+            return true;
+        }else if (i == size) {
+            tail.setNext(new MyNodeIterative(body, tail));
+            tail = tail.getNext();
             size++;
             return true;
         }
         MyNodeIterative curr = head;
-        while(curr.hasNext()) {
+        while(curr != tail) {
             if(i == 0) {
                 MyNodeIterative temp = new MyNodeIterative(body, curr.getPrev(), curr.getNext());
                 if(curr.getPrev() != null) {
@@ -104,13 +107,23 @@ public class MyLinkedListIterative implements MyLinkedList {
     @Override
     public boolean remove(int i) {
         if(i == 0) {
-            head = head.next;
+            head = head.getNext();
             if(head != null) {
                 head.setPrev(null);
             }
+            size--;
+            return true;
+        }
+        else if(i == size-1) {
+            tail = tail.getPrev();
+            if(tail != null) {
+                tail.setPrev(null);
+            }
+            size--;
+            return true;
         }
         MyNodeIterative curr = head;
-        while(curr.hasNext()) {
+        while(curr != tail) {
             if(i == 0) {
                 if(curr.getPrev() != null) {
                     curr.getPrev().setNext(curr.getNext());
@@ -118,15 +131,11 @@ public class MyLinkedListIterative implements MyLinkedList {
                 if(curr.getNext() != null) {
                     curr.getNext().setPrev(curr.getPrev());
                 }
+                size--;
                 return true;
             }
             i--;
             curr = curr.getNext();
-        }
-        if(i == 0) {
-            curr.getPrev().setNext(null);
-            tail = tail.getPrev();
-            return true;
         }
         return false;
     }
@@ -138,10 +147,11 @@ public class MyLinkedListIterative implements MyLinkedList {
             if(head != null) {
                 head.setPrev(null);
             }
+            size--;
             return true;
         }
         MyNodeIterative curr = head;
-        while(curr.hasNext()) {
+        while(curr != tail) {
             if(curr.getVal().getName().equals(b.getName())) {
                 if(curr.getPrev() != null) {
                     curr.getPrev().setNext(curr.getNext());
@@ -149,6 +159,7 @@ public class MyLinkedListIterative implements MyLinkedList {
                 if(curr.getNext() != null) {
                     curr.getNext().setPrev(curr.getPrev());
                 }
+                size--;
                 return true;
             }
             curr = curr.getNext();
@@ -156,6 +167,7 @@ public class MyLinkedListIterative implements MyLinkedList {
         if(curr.getVal().getName().equals(b.getName())) {
             curr.getPrev().setNext(null);
             tail = tail.getPrev();
+            size--;
             return true;
         }
         return false;
