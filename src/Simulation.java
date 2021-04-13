@@ -61,7 +61,7 @@ public class Simulation {
         bodies.add(venus);
         bodies.add(mars);
 
-        Vector3 forceOnBody;
+
 
         StdDraw.setCanvasSize(500, 500);
         StdDraw.setXscale(-2*AU,2*AU);
@@ -82,7 +82,7 @@ public class Simulation {
 
             // for each body (with index i): compute the total force exerted on it.
             for (int i = 0; i < length; i++) {
-                forceOnBody = new Vector3(0, 0, 0); // begin with zero
+                Vector3 forceOnBody = new Vector3(0, 0, 0); // begin with zero
                 Body curr = bodies.get(i);
                 for (int j = 0; j < length; j++) {
                     if (i == j) continue;

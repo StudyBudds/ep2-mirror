@@ -78,6 +78,14 @@ public class MyLinkedListRecursive implements MyLinkedList {
         if(this.head == null) {
             return false;
         }
+        else if(head.getVal().getName().equals(b.getName())) {
+            this.head = this.head.next;
+            if(this.head != null) {
+                this.head.prev = null;
+            }
+            size--;
+            return true;
+        }
         else if(this.head.remove(b)) {
             size--;
             return true;
@@ -161,7 +169,9 @@ public class MyLinkedListRecursive implements MyLinkedList {
             if(i == 0) {
                 MyNodeRecursive node = new MyNodeRecursive(body, this.prev, this);
                 this.prev = node;
-                node.prev.next = node;
+                if(node.prev != null) {
+                    node.prev.next = node;
+                }
                 return true;
             }
             else if(!hasNext() && i == 1) {
