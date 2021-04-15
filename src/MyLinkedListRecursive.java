@@ -44,7 +44,24 @@ public class MyLinkedListRecursive implements MyLinkedList {
     @Override
     public boolean add(int i, Body body) {
         if(this.head == null) {
+            if(i == 0) {
+                return add(body);
+            }
             return false;
+        }
+        else if(i == 0) {
+            MyNodeRecursive newNode = new MyNodeRecursive(body, null, head);
+            this.head.setPrev(newNode);
+            this.head = newNode;
+            size++;
+            return true;
+        }
+        else if(i == size) {
+            MyNodeRecursive newNode = new MyNodeRecursive(body, tail);
+            this.tail.setNext(newNode);
+            this.tail = newNode;
+            size++;
+            return true;
         }
         if(this.head.add(i, body)) {
             size++;
@@ -61,7 +78,15 @@ public class MyLinkedListRecursive implements MyLinkedList {
         else if(i ==0) {
             this.head = this.head.next;
             if(this.head != null) {
-                this.head.prev = null;
+                this.head.setPrev(null);
+            }
+            size--;
+            return true;
+        }
+        else if(i == size-1) {
+            this.tail = this.tail.prev;
+            if(this.tail != null) {
+                this.tail.setNext(null);
             }
             size--;
             return true;
@@ -81,7 +106,15 @@ public class MyLinkedListRecursive implements MyLinkedList {
         else if(head.getVal().getName().equals(b.getName())) {
             this.head = this.head.next;
             if(this.head != null) {
-                this.head.prev = null;
+                this.head.setPrev(null);
+            }
+            size--;
+            return true;
+        }
+        else if(tail.getVal().getName().equals(b.getName())) {
+            this.tail = this.tail.prev;
+            if(this.tail != null) {
+                this.tail.setNext(null);
             }
             size--;
             return true;
@@ -91,15 +124,6 @@ public class MyLinkedListRecursive implements MyLinkedList {
             return true;
         }
         return false;
-    }
-
-    @Override
-    public MyLinkedList reverse() {
-        MyLinkedList newList = new MyLinkedListRecursive();
-        for(int i = size()-1; i >= 0; i--) {
-            newList.add(get(i));
-        }
-        return newList;
     }
 
     public static class MyNodeRecursive {
@@ -118,6 +142,14 @@ public class MyLinkedListRecursive implements MyLinkedList {
             this.val = body;
             this.prev = prev;
             this.next = next;
+        }
+
+        public void setNext(MyNodeRecursive next) {
+            this.next = next;
+        }
+
+        public void setPrev(MyNodeRecursive prev) {
+            this.prev = prev;
         }
 
         public boolean hasNext() {

@@ -58,15 +58,19 @@ public class MyLinkedListIterative implements MyLinkedList {
 
     @Override
     public boolean add(int i, Body body) {
-        if(head == null || find(body.getName()) != null) {
+        if(head == null) {
+            return i == 0 && add(body);
+        }
+        else if(find(body.getName()) != null) {
             return false;
         }
-        if(i == 0) {
+        else if(i == 0) {
             head.setPrev(new MyNodeIterative(body));
             head = head.getPrev();
             size++;
             return true;
-        }else if (i == size) {
+        }
+        else if (i == size) {
             tail.setNext(new MyNodeIterative(body, tail));
             tail = tail.getNext();
             size++;
@@ -171,15 +175,6 @@ public class MyLinkedListIterative implements MyLinkedList {
             return true;
         }
         return false;
-    }
-
-    @Override
-    public MyLinkedList reverse() {
-        MyLinkedList newList = new MyLinkedListIterative();
-        for(int i = size()-1; i >= 0; i--) {
-            newList.add(get(i));
-        }
-        return newList;
     }
 
     public static class MyNodeIterative {
