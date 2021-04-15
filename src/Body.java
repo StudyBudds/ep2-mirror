@@ -53,12 +53,7 @@ public class Body {
     }
 
     public void move() {
-        Vector3 newPosition = this.position
-                .plus(force.times(1/this.mass))
-                .plus(this.currentMovement);
-        //Vector3 newMovement = this.position.minus(newPosition);
-        this.currentMovement = newPosition.minus(this.position); // new minus old position.
-        this.position = newPosition;
+        this.move(force);
     }
 
     // Returns a string with the information about this body including

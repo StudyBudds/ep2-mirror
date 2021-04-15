@@ -13,7 +13,5 @@ public interface MyLinkedList {
 
     boolean remove(Body b);
 
-    MyLinkedList reverse();
-
     String toString();
 }

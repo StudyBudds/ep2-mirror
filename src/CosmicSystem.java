@@ -8,8 +8,8 @@ public class CosmicSystem {
     // Initialises this system as an empty system with a name.
     public CosmicSystem(String name) {
         //TODO: implement constructor.
-        this(name, new MyLinkedListIterative());
-        //this(name, new MyLinkedListRecursive());
+        //this(name, new MyLinkedListIterative());
+        this(name, new MyLinkedListRecursive());
         this.name = name;
         //this.bodies = new MyLinkedListIterative();
         //this.bodies = new MyLinkedListRecursive(); // uncomment this line to switch the LinkedListImplementation to Recursive
@@ -90,7 +90,11 @@ public class CosmicSystem {
     // Returns a new list that contains the same elements as this list in reverse order. The list 'this'
     // is not changed and only the references to the bodies are copied, not their content (shallow copy).
     public CosmicSystem reverse() {
-        return new CosmicSystem(this.name, this.bodies.reverse());
+        CosmicSystem c = new CosmicSystem(this.name);
+        for(int i = 0; i < this.size(); i++) {
+            c.add(0, this.bodies.get(i));
+        }
+        return c;
     }
 
     // Returns a readable representation with the name of the system and all bodies in order of the list.
