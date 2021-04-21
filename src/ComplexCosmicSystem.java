@@ -4,10 +4,18 @@ import java.awt.*;
 public class ComplexCosmicSystem implements CosmicComponent {
 
     //TODO: Define variables.
-
+    private String name;
+    private MyLinkedListCosmicComponent bodies;
     // Initialises this system as an empty system with a name.
     public ComplexCosmicSystem(String name) {
         //TODO: implement constructor.
+        this(name, new MyLinkedListCosmicComponent());
+        this.name = name;
+    }
+
+    public ComplexCosmicSystem(String name, MyLinkedListCosmicComponent bodies) {
+        this.name = name;
+        this.bodies = bodies;
     }
 
     // Adds 'comp' to the list of cosmic components of the system if the list does not already contain a
@@ -15,38 +23,38 @@ public class ComplexCosmicSystem implements CosmicComponent {
     // returns 'true' if the list was changed as a result of the call and 'false' otherwise.
     public boolean add(CosmicComponent comp) {
         //TODO: implement method.
-        return false;
+        return bodies.add(comp);
     }
 
     //Removes a component from the list if the list contains a component with the same name as the input component.
     //Returns true if removal was done, and false otherwise (no component with the same name).
     public boolean remove(CosmicComponent comp) {
         //TODO: implement method.
-        return false;
+        return bodies.remove(comp);
     }
 
     // Returns the CosmicComponent with the specified name or 'null' if no such component exists in the list.
     public CosmicComponent get(String name) {
         //TODO: implement method.
-        return new Body("Dummy Body", 0, 0, new Vector3(0, 0, 0), new Vector3(0, 0, 0), Color.BLACK);
+        return bodies.find(name);
     }
 
     // Returns the CosmicComponent with the same name as the input component or 'null' if no such CosmicComponent exists in the list.
     public CosmicComponent get(CosmicComponent c) {
         //TODO: implement method.
-        return new Body("Dummy Body", 0, 0, new Vector3(0, 0, 0), new Vector3(0, 0, 0), Color.BLACK);
+        return bodies.find(c.getName());
     }
 
     // Returns the name of this system.
     public String getName() {
         //TODO: implement method.
-        return "";
+        return this.name;
     }
 
     // Returns the number of CosmicComponent entries of the list.
     public int size() {
         //TODO: implement method.
-        return -1;
+        return bodies.size();
     }
 
     // Returns a readable representation of the ComplexCosmicSystem.
@@ -59,7 +67,7 @@ public class ComplexCosmicSystem implements CosmicComponent {
     //CONSTRAINT: use the concept of dynamic binding to fulfill this task, i.e. don't use type casts, getClass() or instanceOf().
     public String toString() {
         //TODO: implement method.
-        return "";
+        return this.name + "{" + bodies.toString() + "}";
     }
 
     //Returns the overall number of bodies (i.e. objects of type 'Body') contained in the ComplexCosmicSystem.
@@ -68,7 +76,7 @@ public class ComplexCosmicSystem implements CosmicComponent {
     //CONSTRAINT: use the concept of dynamic binding to fulfill this task, i.e. don't use type casts, getClass() or instanceOf().
     public int numberOfBodies() {
         //TODO: implement method.
-        return -1;
+        return bodies.numberOfBodies();
     }
 
     //Returns the overall mass (sum of all contained components).
@@ -77,7 +85,7 @@ public class ComplexCosmicSystem implements CosmicComponent {
     //CONSTRAINT: use the concept of dynamic binding to fulfill this task, i.e. don't use type casts, getClass() or instanceOf().
     public double getMass() {
         //TODO: implement method.
-        return -1.0;
+        return bodies.getMass();
     }
 
     //Returns the gravitational center of this component (weighted average of contained components).
@@ -86,7 +94,7 @@ public class ComplexCosmicSystem implements CosmicComponent {
     //CONSTRAINT: use the concept of dynamic binding to fulfill this task, i.e. don't use type casts, getClass() or instanceOf().
     public Vector3 getMassCenter() {
         //TODO: implement method.
-        return new Vector3(-1.0, -1.0, 1.0);
+        return bodies.getMassCenter();
     }
 
 }
