@@ -9,6 +9,11 @@ public class Aufgabe3Test {
 
         testValue(jupiterSystem.size(), 0);
 
+        System.out.println("a" == "a");
+        String a = a();
+        String b = b();
+        System.out.println(a == b);
+
         Body jupiter = new Body("Jupiter", 1.898e27, 69911e3, new Vector3(0, 0, 0),
                 new Vector3(0, 0, 0), Color.ORANGE);
         Body io = new Body("Io", 8.9e22, 1822e3, new Vector3(0, 0, 0),
@@ -45,6 +50,7 @@ public class Aufgabe3Test {
         testValue(jupiterSystem.size(), 5);
 
         System.out.println("\nTesting add(int i)...\n-----------");
+        System.out.println(jupiterSystem.size());
         testValue(jupiterSystem.add(1, new Body("Ganymed", 1.5e23, 2631e3, new Vector3(0, 0, 0),
                 new Vector3(0, 0, 0), Color.GRAY)), false);
         testValue(jupiterSystem.add(6, new Body("Elara", 8.7e17, 39e3, new Vector3(0, 0, 0),
@@ -129,6 +135,14 @@ public class Aufgabe3Test {
         } else {
             System.out.println("Test NOT successful! Expected String: " + expected + " / Given String: " + given);
         }
+    }
+
+    public static String a() {
+        return "a";
+    }
+
+    public static String b() {
+        return "a";
     }
 
 }

@@ -79,6 +79,8 @@ public class Aufgabe2Test {
         testComparison(earthSystem, cst.get("Earth"), true);
         testComparison(earthSystem, cst.get("Ganymed"), false);
 
+        System.out.println(cst.getDepth("Phobos"));
+
         System.out.println(cst);
         /*
         (Deimos,Mars System)

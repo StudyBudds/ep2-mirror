@@ -44,6 +44,10 @@ public class CosmicSystemTree {
         }
     }
 
+    public int getDepth(String key) {
+        return get(key) == null ? 0 : root.getDepth(key);
+    }
+
     // Returns the cosmic system in which a body with the specified name exists.
     // For example, if the specified name is "Europa", the system of Jupiter (Jupiter, Io,
     // Europa, Ganymed, Kallisto) will be returned.
@@ -172,6 +176,29 @@ public class CosmicSystemTree {
             int textOffset = middleX > CosmicSystemTree.WIDTH / 2.0 ? -80 : 80;
             StdDraw.text(middleX + textOffset, middleY, this.key);
             StdDraw.text(middleX + textOffset, middleY-20, this.value.getName());
+        }
+
+        public int getDepth(String key) {
+            int comparison = key.compareTo(this.key);
+            if(comparison == 0) {
+                return 1;
+            }
+            else if(comparison < 0) {
+                if(left != null) {
+                    return left.getDepth(key) + 1;
+                }
+                else {
+                    return -1000000;
+                }
+            }
+            else {
+                if(right != null) {
+                    return right.getDepth(key) + 1;
+                }
+                else {
+                    return -1000000;
+                }
+            }
         }
     }
 }
