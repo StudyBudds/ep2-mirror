@@ -27,6 +27,10 @@ public class Vector3 {
         return new Vector3(this.x * d, this.y * d, this.z * d);
     }
 
+    public Vector3 divide(double d) {
+        return new Vector3(this.x / d, this.y / d, this.z / d);
+    }
+
     // Returns the sum of this vector and -1*v.
     public Vector3 minus(Vector3 v) {
         return new Vector3(this.x - v.x, this.y - v.y, this.z - v.z);
