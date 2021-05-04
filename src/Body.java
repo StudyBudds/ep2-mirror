@@ -1,7 +1,10 @@
 import java.awt.*;
+import java.util.Objects;
 
 // This class represents celestial bodies like stars, planets, asteroids, etc..
 public class Body implements CosmicComponent {
+
+    private static double EPSILON = 0.0000001;
 
     private String name;
     private double mass;
@@ -37,6 +40,20 @@ public class Body implements CosmicComponent {
         double force = Simulation.G * body.mass * this.mass / (distance * distance);
 
         return direction.times(force);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Body body = (Body) o;
+        return (Math.abs(this.mass - ((Body) o).mass) < EPSILON) &&
+                name.equals(body.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, mass);
     }
 
     // Moves this body to a new position, according to the specified force vector 'force' exerted
