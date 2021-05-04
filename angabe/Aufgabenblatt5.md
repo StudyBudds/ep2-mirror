@@ -44,13 +44,9 @@ public interface BodyIterable extends Iterable<Body> {
 // An iterator over elements of type 'Body'.
 public interface BodyIterator extends java.util.Iterator<Body> {
 
-    @Override
-    // Returns 'true' if the iteration has more elements. (In other 
-    // words, returns true if 'next()' would return an element rather
-    // than throwing an exception.)
+    // Returns 'true' if the iteration has more elements.
     boolean hasNext();
 
-    @Override
     // Returns the next element (i.e. body) in the iteration.
     Body next();
 
@@ -84,16 +80,18 @@ public interface BodyIterator extends java.util.Iterator<Body> {
      }
  ````
  - Die Klasse soll die bisherige hierarchische Struktur beibehalten, aber die gegebenen Interfaces
- `BodyIterable` und `CosmicSystemIndex` implementieren. Machen Sie die dafür notwendigen 
- Ergänzungen in der Klasse `ComplexCosmicSystem`. Ein Iterator der Klasse `ComplexCosmicSystem` 
- soll über alle im dargestellten System (inklusive Untersysteme) vorkommenden Himmelskörper 
- (Objekte vom Typ `Body`) iterieren. Die Reihenfolge ist nicht festgelegt.
-3. Definieren Sie eine Klasse `CosmicSystemMap`, die das Interface `CosmicSystemIndex` mittels 
- Hash-Tabelle implementiert. (`BodyIterable` wird von dieser Klasse nicht implementiert). 
- Verwenden Sie dabei keine vorgefertigten Klassen aus dem Java-Collection-Framework, sondern 
- orientieren Sie sich an den Beispielen aus dem Skriptum. Wählen Sie eine geeignete Form 
- der Kollisionsbehandlung. Testen Sie die Implementierung mit eigenen Testfällen. Überschreiben
- Sie auch `toString` so, dass zumindest die enthaltenen `Body`-Objekte dargestellt werden. `equals` 
+ `BodyIterable` und `CosmicSystemIndex` implementieren. Machen Sie die dafür notwendigen
+ Ergänzungen in der Klasse `ComplexCosmicSystem`. Definieren Sie eine Klasse, die den Iterator
+ implementiert (als weitere Klasse in der Datei `ComplexCosmicSystem.java` oder in einer eigenen
+ Datei). Ein Iterator von `ComplexCosmicSystem` soll über alle im dargestellten System (inklusive
+ Untersysteme) vorkommenden Himmelskörper (Objekte vom Typ `Body`) iterieren. Die Reihenfolge ist
+ nicht festgelegt.
+3. Definieren Sie eine Klasse `CosmicSystemMap`, die das Interface `CosmicSystemIndex` mittels
+ Hash-Tabelle implementiert. (`BodyIterable` wird von dieser Klasse nicht implementiert).
+ Verwenden Sie dabei keine vorgefertigten Klassen aus dem Java-Collection-Framework, sondern
+ orientieren Sie sich an den Beispielen aus dem Skriptum. Wählen Sie eine geeignete Form der
+ Kollisionsbehandlung. Testen Sie die Implementierung mit eigenen Testfällen. Überschreiben Sie
+ auch `toString` so, dass zumindest die enthaltenen `Body`-Objekte dargestellt werden. `equals`
  und `hashCode` werden von dieser Klasse nicht überschrieben.
  Die Klasse `CosmicSystemMap` soll folgenden Konstruktor haben:
  ````
@@ -106,10 +104,9 @@ public interface BodyIterator extends java.util.Iterator<Body> {
      }
  ````
 
-### Zusatzfragen
-Überlegen Sie sich Antworten auf folgende Fragen. Die (freiwillige) mündliche Beantwortung aller 
-dieser Fragen in der Übungseinheit AB5 wird als Bonuspunkt gewertet, der einen eventuell verlorenen 
-Punkt in einem anderen Aufgabenblatt wieder wettmachen kann.
+### Denkanstöße (ohne Bewertung)
+Folgende Fragen sind als Denkanstöße gedacht und bilden die Grundlage für eine Diskussion in der
+Übungseinheit zu diesem Aufgabenblatt.
 
 1. Wie ändert sich das Verhalten von `CosmicSystemMap`, wenn Sie in Ihrer Lösung die
  Implementierung der Methoden `equals` und `hashCode` aus der Klasse `Body` löschen?
@@ -126,9 +123,9 @@ Punkt in einem anderen Aufgabenblatt wieder wettmachen kann.
  - Implementierung von `equals` und `hashCode` in `Body`: 0.5 Punkt
  - `ComplexCosmicSystem`: Implementierung von `equals` und `hashCode`: 1 Punkte 
  - `ComplexCosmicSystem`: Konstruktor: 0.5 Punkte
- - `ComplexCosmicSystem`: Implementierung von `CosmicSystemIndex`: 1 Punkt
+ - `ComplexCosmicSystem`: Implementierung von `CosmicSystemIndex`: 0.5 Punkt
  - `ComplexCosmicSystem`: Implementierung von `Iterable`: 1 Punkt
- - `CosmicSystemMap`: Implementierung von `CosmicSystemIndex`: 1 Punkt
+ - `CosmicSystemMap`: Implementierung von `CosmicSystemIndex`: 1.5 Punkt
  
 
 
