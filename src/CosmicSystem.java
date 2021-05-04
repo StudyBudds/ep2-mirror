@@ -140,14 +140,13 @@ public class CosmicSystem implements Iterable<Body>{
         public boolean hasNext() {
             if(curr == null){
                 curr = head;
-            }else{
-                curr = curr.getNext();
             }
-            return Optional.ofNullable(curr).isPresent();
+            return curr.getNext() != null;
         }
 
         @Override
         public Body next() {
+            curr = curr.getNext();
             return curr.getVal();
         }
     }
