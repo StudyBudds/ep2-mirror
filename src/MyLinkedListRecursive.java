@@ -126,7 +126,11 @@ public class MyLinkedListRecursive implements MyLinkedList {
         return false;
     }
 
-    public static class MyNodeRecursive {
+    public MyLinkedNode getHead() {
+        return this.head;
+    }
+
+    public static class MyNodeRecursive implements MyLinkedNode {
         private MyNodeRecursive next, prev;
         private final Body val;
 
@@ -158,6 +162,10 @@ public class MyLinkedListRecursive implements MyLinkedList {
 
         public Body getVal() {
             return val;
+        }
+
+        public MyNodeRecursive getNext() {
+            return this.next;
         }
 
         public boolean add(Body body) {

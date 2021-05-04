@@ -14,4 +14,12 @@ public interface MyLinkedList {
     boolean remove(Body b);
 
     String toString();
+
+    MyLinkedNode getHead();
+
+    public static interface MyLinkedNode {
+        boolean hasNext();
+        MyLinkedNode getNext();
+        Body getVal();
+    }
 }

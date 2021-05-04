@@ -144,6 +144,18 @@ public class MyLinkedListIterative implements MyLinkedList {
         return false;
     }
 
+    private MyNodeIterative getNode(int i) {
+        MyNodeIterative curr = head;
+        while(curr != null) {
+            if(i == 0) {
+                return curr;
+            }
+            curr = curr.getNext();
+            i--;
+        }
+        return null;
+    }
+
     @Override
     public boolean remove(Body b) {
         if(head.getVal().getName().equals(b.getName())) {
@@ -177,7 +189,11 @@ public class MyLinkedListIterative implements MyLinkedList {
         return false;
     }
 
-    public static class MyNodeIterative {
+    public MyLinkedNode getHead() {
+        return this.head;
+    }
+
+    public static class MyNodeIterative implements MyLinkedNode {
         private MyNodeIterative next, prev;
         private final Body val;
         public MyNodeIterative(Body body) {

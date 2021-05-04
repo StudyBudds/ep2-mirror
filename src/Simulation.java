@@ -54,12 +54,7 @@ public class Simulation {
         Body venus = new Body("Venus",4.86747e24,6052e3,new Vector3(-1.707667e10,1.066132e11,2.450232e9),new Vector3(-34446.02,-5567.47,2181.10),StdDraw.PINK);
         Body mars = new Body("Mars",6.41712e23,3390e3,new Vector3(-1.010178e11,-2.043939e11,-1.591727E9),new Vector3(20651.98,-10186.67,-2302.79),StdDraw.RED);
 
-        CosmicSystem bodies = new CosmicSystem("Sonnensystem");
-        bodies.add(sun);
-        bodies.add(earth);
-        bodies.add(mercury);
-        bodies.add(venus);
-        bodies.add(mars);
+
 
 
 
@@ -74,19 +69,23 @@ public class Simulation {
         StdDraw.clear(StdDraw.BLACK);
 
         double seconds = 0;
+        CosmicSystem bodies = new CosmicSystem("Sonnensystem");
+        bodies.add(sun);
+        bodies.add(earth);
+        bodies.add(mercury);
+        bodies.add(venus);
+        bodies.add(mars);
         int length = bodies.size();
         // simulation loop
         while(true) {
 
             seconds++; // each iteration computes the movement of the celestial bodies within one second.
-
             // for each body (with index i): compute the total force exerted on it.
-            for (int i = 0; i < length; i++) {
+            for (Body curr : bodies) {
                 Vector3 forceOnBody = new Vector3(0, 0, 0); // begin with zero
-                Body curr = bodies.get(i);
-                for (int j = 0; j < length; j++) {
-                    if (i == j) continue;
-                    Vector3 forceToAdd = curr.gravitationalForce(bodies.get(j));
+                for (Body other : bodies) {
+                    if (curr.getName().equals(other.getName())) continue;
+                    Vector3 forceToAdd = curr.gravitationalForce(other);
                     forceOnBody = forceOnBody.plus(forceToAdd);
                 }
                 curr.setForce(forceOnBody);
@@ -94,8 +93,8 @@ public class Simulation {
             // now forceOnBody[i] holds the force vector exerted on body with index i.
 
             // for each body (with index i): move it according to the total force exerted on it.
-            for (int i = 0; i < length; i++) {
-                bodies.get(i).move();
+            for (Body curr : bodies) {
+                curr.move();
             }
 
             // show all movements in StdDraw canvas only every 3 hours (to speed up the simulation)
@@ -104,8 +103,8 @@ public class Simulation {
                 StdDraw.clear(StdDraw.BLACK);
 
                 // draw new positions
-                for (int i = 0; i < length; i++) {
-                    bodies.get(i).draw();
+                for (Body curr : bodies) {
+                    curr.draw();
                 }
 
                 // show new positions

@@ -1,5 +1,9 @@
+import java.util.Iterator;
+import java.util.Optional;
+import java.util.function.Consumer;
+
 //This class represents a linked list for objects of class 'Body'
-public class CosmicSystem {
+public class CosmicSystem implements Iterable<Body>{
 
     //TODO: Define variables.
     private String name;
@@ -8,8 +12,8 @@ public class CosmicSystem {
     // Initialises this system as an empty system with a name.
     public CosmicSystem(String name) {
         //TODO: implement constructor.
-        //this(name, new MyLinkedListIterative());
-        this(name, new MyLinkedListRecursive());
+        this(name, new MyLinkedListIterative());
+        //this(name, new MyLinkedListRecursive());
         this.name = name;
         //this.bodies = new MyLinkedListIterative();
         //this.bodies = new MyLinkedListRecursive(); // uncomment this line to switch the LinkedListImplementation to Recursive
@@ -112,5 +116,39 @@ public class CosmicSystem {
         return s.toString();
     }
 
+    @Override
+    public Iterator<Body> iterator() {
+        return new BodyIterator(bodies.getHead());
+    }
 
+    @Override
+    public void forEach(Consumer<? super Body> action) {
+        for(Body b : this) {
+            action.accept(b);
+        }
+    }
+
+    public static class BodyIterator implements Iterator<Body> {
+        MyLinkedList.MyLinkedNode curr;
+        MyLinkedList.MyLinkedNode head;
+        public BodyIterator(MyLinkedList.MyLinkedNode head) {
+            this.curr = null;
+            this.head = head;
+        }
+
+        @Override
+        public boolean hasNext() {
+            if(curr == null){
+                curr = head;
+            }else{
+                curr = curr.getNext();
+            }
+            return Optional.ofNullable(curr).isPresent();
+        }
+
+        @Override
+        public Body next() {
+            return curr.getVal();
+        }
+    }
 }
