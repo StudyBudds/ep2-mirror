@@ -12,7 +12,7 @@ public class CosmicSystemMap implements BodyIterable, CosmicSystemIndex {
     public CosmicSystemMap(ComplexCosmicSystem system) {
         // implement method
         for(Body b : system) {
-            put(b,system.getParent(b));
+            put(b, system.getParent(b));
         }
     }
 

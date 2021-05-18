@@ -29,6 +29,17 @@ public class Aufgabe5Test{
                 , jupiterSystem);
         ComplexCosmicSystem milkyWay = new ComplexCosmicSystem("Milky Way", solarSystem, voyager);
 
+        ComplexCosmicSystem e21 = new ComplexCosmicSystem("Ebene2 CCS 1",sun, earth);
+        ComplexCosmicSystem e22 = new ComplexCosmicSystem("Ebene2 CCS 2", ganymed, io);
+        ComplexCosmicSystem e11 = new ComplexCosmicSystem("Ebene1 CCS 1", voyager, e21, e22);
+        ComplexCosmicSystem e12 = new ComplexCosmicSystem("Ebene1 CCS 2",jupiter, kallisto);
+        ComplexCosmicSystem test = new ComplexCosmicSystem("Testing", e11, e12);
+        System.out.println("=========================");
+        for(Body b : test) {
+            System.out.println(b);
+        }
+        System.out.println("=========================");
+
 
 
         System.out.println("\nTesting equals() and hashCode() of Body...\n----------");

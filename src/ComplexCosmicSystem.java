@@ -10,10 +10,10 @@ public class ComplexCosmicSystem implements CosmicComponent, CosmicSystemIndex, 
     private MyNodeRecursiveCosmicComponent head, tail;
     private int size;
     // Initialises this system as an empty system with a name.
-    public ComplexCosmicSystem(String name) {
-        //TODO: implement constructor.
-        this.name = name;
-    }
+//    public ComplexCosmicSystem(String name) {
+//        //TODO: implement constructor.
+//        this.name = name;
+//    }
 
     public ComplexCosmicSystem(String name, CosmicComponent c1, CosmicComponent c2,
                                CosmicComponent... ci) {
@@ -262,6 +262,44 @@ public class ComplexCosmicSystem implements CosmicComponent, CosmicSystemIndex, 
             else {
                 return null;
             }
+        }
+    }
+
+    public static class MyStackIterator implements BodyIterator {
+        private MyNodeRecursiveCosmicComponent node;
+        private MyGenericStack<ComplexCosmicSystem> stack = new MyGenericStack<>();
+
+        public MyStackIterator(MyNodeRecursiveCosmicComponent node) {
+            this.node = node;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return node != null || stack.peek() != null;
+        }
+
+        @Override
+        public Body next() {
+            ComplexCosmicSystem top = stack.peek();
+            if(node == null) {
+                if(top == null) {
+                    stack.pop();
+                    return null;
+                }
+                node = top.getHead();
+                stack.pop();
+            }
+            CosmicComponent c = node.getVal();
+            if(c instanceof Body) {
+                node = node.next;
+                return (Body) c;
+            }
+            if(c instanceof ComplexCosmicSystem) {
+                stack.push((ComplexCosmicSystem) c);
+                node = node.next;
+                return next();
+            }
+            return null;
         }
     }
 
