@@ -23,6 +23,10 @@ public class MyGenericStack<T> {
         return val;
     }
 
+    public boolean isEmpty() {
+        return top == null;
+    }
+
     public static class MyGenericNode<T> {
         private T val;
         private MyGenericNode<T> next;
