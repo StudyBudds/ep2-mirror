@@ -3,6 +3,10 @@ import java.awt.*;
 public class Aufgabe5Test{
 
     public static void main(String[] args) {
+        CosmicSystem c = new CosmicSystem("a");
+        for(int i = 0; i < c.size(); i++) {
+            System.out.println(c.get(i));
+        }
 
         System.out.println("\nIt is expected that add() works...\n----------");
         Body jupiter = new Body("Jupiter", 1.898e27, 69911e3, new Vector3(0, 0, 0),
@@ -21,7 +25,12 @@ public class Aufgabe5Test{
                 new Vector3(17e3, 0, 0), Color.CYAN);
         Body earth = new Body("Earth", 5.972e24, 6371e3, new Vector3(0, 0, 0), new Vector3(0, 0, 0), Color.BLUE);
         Body moon = new Body("Moon", 7.348e22, 1737e3, new Vector3(0, 0, 0), new Vector3(0, 0, 0), Color.GRAY);
+        Body sunCopy = new Body("Sol", 1.989e30+0.000000000001, 696340e3, new Vector3(0, 0, 0),
+                new Vector3(0, 0, 0), Color.YELLOW);
 
+        int hash1 = sun.hashCode();
+        int hash2 = sunCopy.hashCode();
+        System.out.println(hash1 == hash2);
         ComplexCosmicSystem earthSystem = new ComplexCosmicSystem("Earth System", earth, moon);
         ComplexCosmicSystem jupiterSystem = new ComplexCosmicSystem("Jupiter System", jupiter, io
                 , europa, ganymed, kallisto);

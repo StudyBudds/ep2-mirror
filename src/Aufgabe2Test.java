@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.util.Iterator;
 
 public class Aufgabe2Test {
 
@@ -19,6 +20,28 @@ public class Aufgabe2Test {
                 new Vector3(0,0,0), Color.GRAY);
         Body kallisto = new Body("Kallisto", 1.1e23 ,2411e3, new Vector3(0,0,0),
                 new Vector3(0,0,0), Color.GRAY);
+
+
+        MyLinkedListIterative l = new MyLinkedListIterative();
+        l.add(jupiter);
+        l.add(io);
+        l.add(europa);
+        l.add(ganymed);
+        l.add(kallisto);
+
+        for(int i = 0; i < l.size(); i++) {
+            l.get(i);
+        }
+
+        for (Body b : l) {
+            System.out.println(b);
+        }
+
+        for(Body b : l) {
+            System.out.println(b);
+        }
+
+
 
         jupiterSystem.add(jupiter);
         jupiterSystem.add(io);

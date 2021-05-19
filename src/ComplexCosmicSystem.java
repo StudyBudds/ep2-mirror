@@ -3,7 +3,7 @@ import java.util.Iterator;
 import java.util.Objects;
 
 //This class represents a double-linked list for objects of class 'CosmicComponent'.
-public class ComplexCosmicSystem implements CosmicComponent, CosmicSystemIndex, BodyIterable {
+public class ComplexCosmicSystem implements CosmicComponent, CosmicSystemIndex {
 
     //TODO: Define variables.
     private String name;
@@ -167,8 +167,7 @@ public class ComplexCosmicSystem implements CosmicComponent, CosmicSystemIndex, 
         MyNodeRecursiveCosmicComponent current = head;
         while(current != null) {
             if(current.getVal() instanceof Body) { // only works for Body
-                Body body = (Body) current.getVal();
-                if(body.equals(b)) {
+                if(b.equals(current.getVal())) {
                     return this;
                 }
             }
@@ -178,7 +177,7 @@ public class ComplexCosmicSystem implements CosmicComponent, CosmicSystemIndex, 
                     return res;
                 }
             }
-            current = current.next;
+            current = current.getNext();
         }
         return null;
     }
@@ -191,14 +190,10 @@ public class ComplexCosmicSystem implements CosmicComponent, CosmicSystemIndex, 
             return false;
         }
         ComplexCosmicSystem c = (ComplexCosmicSystem) o;
-        for(Body b : c) {
-            if(!contains(b)) { // check if every body o is in this
-                return false;
-            }
-        }
+        if(size() != c.size()) return false;
 
-        for(Body b : this) { // check if every body of this is in o
-            if(!c.contains(b)) {
+        for(Body b : c) {
+            if(!this.contains(b)) { // check if every body o is in this
                 return false;
             }
         }
@@ -212,7 +207,46 @@ public class ComplexCosmicSystem implements CosmicComponent, CosmicSystemIndex, 
 
     @Override
     public BodyIterator iterator() {
-        return new MyComplexIterator(this.head);
+        return new My5HeadIterator(head);
+    }
+
+    public static class MyIterator implements BodyIterator {
+
+        private MyNodeRecursiveCosmicComponent current;
+        private MyIterator parent;
+
+        public MyIterator(MyNodeRecursiveCosmicComponent current) {
+            this.current = current;
+        }
+
+        public MyIterator(MyNodeRecursiveCosmicComponent current, MyIterator parent) {
+            this.current = current;
+            this.parent = parent;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return current != null;
+        }
+
+        @Override
+        public Body next() {
+            CosmicComponent c = current.getVal();
+            current = current.getNext();
+            while(current == null && parent != null) {
+                current = parent.current;
+                parent = parent.parent;
+            }
+            if(c.getClass() == Body.class) {
+                return (Body) c;
+            }
+            if(c.getClass() == ComplexCosmicSystem.class) {
+                ComplexCosmicSystem system = (ComplexCosmicSystem) c;
+                parent = new MyIterator(system.getHead(), parent);
+                return next();
+            }
+            return null;
+        }
     }
 
     public static class MyComplexIterator implements BodyIterator {
@@ -303,6 +337,81 @@ public class ComplexCosmicSystem implements CosmicComponent, CosmicSystemIndex, 
         }
     }
 
+    public static class MySimpleJackIterator implements Iterator<CosmicComponent> {
+        private MyNodeRecursiveCosmicComponent node;
+        public MySimpleJackIterator(MyNodeRecursiveCosmicComponent node) {
+            this.node = node;
+        }
+
+        public boolean hasNext() {
+            return this.node != null;
+        }
+
+        public CosmicComponent next() {
+            if(node == null) {
+                return null;
+            }
+            CosmicComponent c = node.getVal();
+            node = node.next;
+            return c;
+        }
+    }
+
+    public static class MyYousifIterator implements BodyIterator {
+        private MyNodeRecursiveCosmicComponent node;
+        private MyGenericStack<MySimpleJackIterator> stack = new MyGenericStack<MySimpleJackIterator>();
+
+        public MyYousifIterator(MyNodeRecursiveCosmicComponent node) {
+            stack.push(new MySimpleJackIterator(node));
+        }
+
+        public boolean hasNext() {
+            return !stack.isEmpty();
+        }
+
+        public Body next() {
+            MySimpleJackIterator iter = stack.peek();
+            CosmicComponent c = iter.next();
+            if(!iter.hasNext()) {
+                stack.pop();
+            }
+            if(c instanceof ComplexCosmicSystem) {
+                stack.push(new MySimpleJackIterator(((ComplexCosmicSystem) c).getHead()));
+                return this.next();
+            }
+            else if(c instanceof Body) {
+                return (Body)c;
+            }
+            return null;
+        }
+    }
+
+    public static class My5HeadIterator implements BodyIterator {
+
+        private MyNodeRecursiveCosmicComponent node;
+        private BodyIterator currentIterator;
+
+
+        public My5HeadIterator(MyNodeRecursiveCosmicComponent c) {
+            node = c;
+            currentIterator = node.val.iterator();
+        }
+
+        @Override
+        public boolean hasNext() {
+            return node.hasNext() || currentIterator.hasNext();
+        }
+
+        @Override
+        public Body next() {
+            if(!currentIterator.hasNext()) {
+                this.node = this.node.next;
+                this.currentIterator = this.node.val.iterator();
+            }
+            return currentIterator.next();
+        }
+    }
+
     public static class MyNodeRecursiveCosmicComponent {
         private MyNodeRecursiveCosmicComponent next, prev;
         private final CosmicComponent val;
@@ -319,6 +428,10 @@ public class ComplexCosmicSystem implements CosmicComponent, CosmicSystemIndex, 
             this.val = body;
             this.prev = prev;
             this.next = next;
+        }
+
+        public MyNodeRecursiveCosmicComponent getNext() {
+            return next;
         }
 
         public void setNext(MyNodeRecursiveCosmicComponent next) {
@@ -338,6 +451,7 @@ public class ComplexCosmicSystem implements CosmicComponent, CosmicSystemIndex, 
         }
 
         public boolean add(CosmicComponent body) {
+            if(body == null) return false;
             if (val.getName().equals(body.getName())) {
                 return false;
             } else if (next == null) {

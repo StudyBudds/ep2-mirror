@@ -1,10 +1,11 @@
 import java.awt.*;
+import java.util.Iterator;
 import java.util.Objects;
 
 // This class represents celestial bodies like stars, planets, asteroids, etc..
 public class Body implements CosmicComponent {
 
-    private static double EPSILON = 0.0000001;
+    private static final double EPSILON = 0.0000001;
 
     private String name;
     private double mass;
@@ -127,5 +128,27 @@ public class Body implements CosmicComponent {
         body.radius = tempRadius;
     }
 
+    @Override
+    public BodyIterator iterator() {
+        return new OneTimeIterator(this);
+    }
+
+    public static class OneTimeIterator implements BodyIterator {
+        private boolean oneTime = true;
+        private final Body value;
+        public OneTimeIterator(Body val) {
+            this.value = val;
+        }
+        @Override
+        public boolean hasNext() {
+            return oneTime;
+        }
+
+        @Override
+        public Body next() {
+            oneTime = false;
+            return value;
+        }
+    }
 }
 

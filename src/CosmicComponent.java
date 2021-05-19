@@ -1,4 +1,4 @@
-public interface CosmicComponent {
+public interface CosmicComponent extends BodyIterable {
     //Returns the name of the component.
     String getName();
 
