@@ -1,4 +1,4 @@
-public class MyLinkedListIterative implements MyLinkedList {
+public class MyLinkedListIterative implements MyLinkedList, BodyIterable {
 
     private MyNodeIterative head, tail;
     private int size;
@@ -191,6 +191,32 @@ public class MyLinkedListIterative implements MyLinkedList {
 
     public MyLinkedNode getHead() {
         return this.head;
+    }
+
+    @Override
+    public BodyIterator iterator() {
+        return null;
+    }
+
+    public static class Iter implements BodyIterator {
+
+        private MyNodeIterative current;
+
+        public Iter(MyNodeIterative head) {
+            this.current = head;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return current != null;
+        }
+
+        @Override
+        public Body next() {
+            Body b = current.getVal();
+            current = current.getNext();
+            return b;
+        }
     }
 
     public static class MyNodeIterative implements MyLinkedNode {

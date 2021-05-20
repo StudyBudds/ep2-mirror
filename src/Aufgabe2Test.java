@@ -33,13 +33,15 @@ public class Aufgabe2Test {
             l.get(i);
         }
 
-        for (Body b : l) {
-            System.out.println(b);
-        }
-
-        for(Body b : l) {
-            System.out.println(b);
-        }
+//        for(Body b : l) {
+//            System.out.println(b);
+//        }
+//
+//        BodyIterator iter = l.iterator();
+//        while(iter.hasNext()) {
+//            Body b = iter.next();
+//            System.out.println(b);
+//        }
 
 
 

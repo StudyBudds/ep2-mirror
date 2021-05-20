@@ -207,7 +207,7 @@ public class ComplexCosmicSystem implements CosmicComponent, CosmicSystemIndex {
 
     @Override
     public BodyIterator iterator() {
-        return new My5HeadIterator(head);
+        return new MyRecursiveIterator(head);
     }
 
     public static class MyIterator implements BodyIterator {
@@ -337,62 +337,13 @@ public class ComplexCosmicSystem implements CosmicComponent, CosmicSystemIndex {
         }
     }
 
-    public static class MySimpleJackIterator implements Iterator<CosmicComponent> {
-        private MyNodeRecursiveCosmicComponent node;
-        public MySimpleJackIterator(MyNodeRecursiveCosmicComponent node) {
-            this.node = node;
-        }
-
-        public boolean hasNext() {
-            return this.node != null;
-        }
-
-        public CosmicComponent next() {
-            if(node == null) {
-                return null;
-            }
-            CosmicComponent c = node.getVal();
-            node = node.next;
-            return c;
-        }
-    }
-
-    public static class MyYousifIterator implements BodyIterator {
-        private MyNodeRecursiveCosmicComponent node;
-        private MyGenericStack<MySimpleJackIterator> stack = new MyGenericStack<MySimpleJackIterator>();
-
-        public MyYousifIterator(MyNodeRecursiveCosmicComponent node) {
-            stack.push(new MySimpleJackIterator(node));
-        }
-
-        public boolean hasNext() {
-            return !stack.isEmpty();
-        }
-
-        public Body next() {
-            MySimpleJackIterator iter = stack.peek();
-            CosmicComponent c = iter.next();
-            if(!iter.hasNext()) {
-                stack.pop();
-            }
-            if(c instanceof ComplexCosmicSystem) {
-                stack.push(new MySimpleJackIterator(((ComplexCosmicSystem) c).getHead()));
-                return this.next();
-            }
-            else if(c instanceof Body) {
-                return (Body)c;
-            }
-            return null;
-        }
-    }
-
-    public static class My5HeadIterator implements BodyIterator {
+    public static class MyRecursiveIterator implements BodyIterator {
 
         private MyNodeRecursiveCosmicComponent node;
         private BodyIterator currentIterator;
 
 
-        public My5HeadIterator(MyNodeRecursiveCosmicComponent c) {
+        public MyRecursiveIterator(MyNodeRecursiveCosmicComponent c) {
             node = c;
             currentIterator = node.val.iterator();
         }
