@@ -11,8 +11,10 @@ public class CosmicSystemMap implements BodyIterable, CosmicSystemIndex {
     // to the system (only the direct parent) to which the body belongs.
     public CosmicSystemMap(ComplexCosmicSystem system) {
         // implement method
-        for(Body b : system) {
-            put(b, system.getParent(b));
+        if(system != null) {
+            for(Body b : system) {
+                put(b, system.getParent(b));
+            }
         }
     }
 

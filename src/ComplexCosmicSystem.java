@@ -190,7 +190,7 @@ public class ComplexCosmicSystem implements CosmicComponent, CosmicSystemIndex {
             return false;
         }
         ComplexCosmicSystem c = (ComplexCosmicSystem) o;
-        if(size() != c.size()) return false;
+        if(numberOfBodies() != c.numberOfBodies()) return false;
 
         for(Body b : c) {
             if(!this.contains(b)) { // check if every body o is in this
