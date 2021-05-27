@@ -159,6 +159,7 @@ public class CosmicSystemMap implements BodyIterable, CosmicSystemIndex {
             while(curr < ks.length && ks[curr] == null) {
                 curr++;
             }
+
             return curr < ks.length;
         }
 

@@ -135,6 +135,13 @@ public class Aufgabe5Test{
         testValue(altEarthMap.equals(solarMap), false);
         testValue(altEarthMap.hashCode() == earthMap.hashCode(), true);
 
+        for (Body body : milkyMap) {
+            System.out.println(body);
+        }
+        System.out.println("=====");
+        for (Body body : milkyWay) {
+            System.out.println(body);
+        }
         System.out.println("\nTesting toString() of CosmicSystemMap...\n----------");
         System.out.println("This should print two bodies: \n" + earthMap.toString());
         System.out.println("This should print nine bodies: \n" + milkyMap);
