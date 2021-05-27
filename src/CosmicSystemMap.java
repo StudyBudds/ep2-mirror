@@ -147,8 +147,8 @@ public class CosmicSystemMap implements BodyIterable, CosmicSystemIndex {
     }
 
     public static class KeyIterator implements BodyIterator {
-        public int curr = 0;
-        public Body[] ks;
+        private int curr = 0;
+        private final Body[] ks;
 
         public KeyIterator(Body[] ks) {
             this.ks = ks;
