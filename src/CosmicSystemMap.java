@@ -52,6 +52,26 @@ public class CosmicSystemMap implements BodyIterable, CosmicSystemIndex {
             }
         }
         return old;
+        /// 1111
+        /// 0111
+    }
+
+    public boolean halveCapacity() {
+        if(ks.length / 2 < count) {
+            return false;
+        }
+        int i;
+        Body[] oks = ks;
+        ComplexCosmicSystem[] ovs = vs;
+        ks = new Body[oks.length >> 1];
+        vs = new ComplexCosmicSystem[oks.length >> 1];
+        for (int j = 0; j < oks.length; j++) {
+            if (oks[j] != null) {
+                ks[i = find(oks[j])] = oks[j];
+                vs[i] = ovs[j];
+            }
+        }
+        return true;
     }
 
     public ComplexCosmicSystem get(Body k) {
@@ -72,11 +92,6 @@ public class CosmicSystemMap implements BodyIterable, CosmicSystemIndex {
         return b != null ? b.equals(ks[find(b)]) : false;
     }
 
-    @Override
-    public BodyIterator iterator() {
-        return new MyMapIterator(count, ks);
-    }
-
     public String toString() {
         String s = "";
         if(count == 0) {
@@ -88,13 +103,54 @@ public class CosmicSystemMap implements BodyIterable, CosmicSystemIndex {
         return s.substring(0, s.length() - 2);
     }
 
-    public static class MyMapIterator implements BodyIterator {
+    public boolean equals(Object o) {
+        if(o == null || o.getClass() != this.getClass()) return false;
+        if(o == this) return true;
+        CosmicSystemMap other = (CosmicSystemMap) o;
+        if(this.ks.length != other.ks.length || this.count != other.count) return false;
+
+        for(int i = 0; i < this.ks.length; i++) {
+            Body key = ks[i];
+            ComplexCosmicSystem value = vs[i];
+            if(key != null) {
+                ComplexCosmicSystem otherValue = other.getParent(key);
+                if(!value.equals(otherValue)) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    // 1: a : A; b : B
+    // 2: b : A; a : B
+    // (a-A)+(b-B)
+    // (b-A)+(a-B)
+
+    public int hashCode() {
+        int hash = 0;
+        for(int i = 0; i < ks.length; i++) {
+            Body key = ks[i];
+            ComplexCosmicSystem value = vs[i];
+            if(key != null) {
+                int keyHash = key.hashCode();
+                int valueHash = value.hashCode();
+                hash += (keyHash * valueHash) / 23;
+            }
+        }
+        return hash;
+    }
+
+    @Override
+    public BodyIterator iterator() {
+        return new KeyIterator(ks);
+    }
+
+    public static class KeyIterator implements BodyIterator {
         public int curr = 0;
-        public int capacity;
         public Body[] ks;
 
-        public MyMapIterator(int capacity, Body[] ks) {
-            this.capacity = capacity;
+        public KeyIterator(Body[] ks) {
             this.ks = ks;
         }
 
