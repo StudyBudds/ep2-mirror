@@ -128,6 +128,10 @@ public class Body implements CosmicComponent {
         body.radius = tempRadius;
     }
 
+    public BodyIterator iterator(ComplexCosmicSystem parent) {
+        return new OneTimeIterator(parent, this);
+    }
+
     @Override
     public BodyIterator iterator() {
         return new OneTimeIterator(this);
@@ -136,9 +140,17 @@ public class Body implements CosmicComponent {
     public static class OneTimeIterator implements BodyIterator {
         private boolean oneTime = true;
         private final Body value;
+        private ComplexCosmicSystem parent;
+        public OneTimeIterator(ComplexCosmicSystem parent, Body val) {
+            this.value = val;
+            this.parent = parent;
+        }
+
+
         public OneTimeIterator(Body val) {
             this.value = val;
         }
+
         @Override
         public boolean hasNext() {
             return oneTime;
@@ -148,6 +160,10 @@ public class Body implements CosmicComponent {
         public Body next() {
             oneTime = false;
             return value;
+        }
+
+        public void remove() {
+            parent.remove(value);
         }
     }
 }

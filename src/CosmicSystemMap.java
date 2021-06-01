@@ -1,3 +1,5 @@
+import java.util.NoSuchElementException;
+
 // define class
 public class CosmicSystemMap implements BodyIterable, CosmicSystemIndex {
 
@@ -142,30 +144,59 @@ public class CosmicSystemMap implements BodyIterable, CosmicSystemIndex {
     }
 
     @Override
+    public BodyCollection getBodies() {
+        return new MyBodyList(this);
+    }
+
+    @Override
+    public int numberOfBodies() {
+        return count;
+    }
+
+    @Override
     public BodyIterator iterator() {
-        return new KeyIterator(ks);
+        return new KeyIterator(this);
+    }
+
+    private void remove(int index) {
+        if(index < ks.length) {
+            if(this.ks[index] != null) {
+                this.count--;
+            }
+            this.ks[index] = null;
+            this.vs[index] = null;
+        }
     }
 
     public static class KeyIterator implements BodyIterator {
         private int curr = 0;
+        private final CosmicSystemMap map;
         private final Body[] ks;
 
-        public KeyIterator(Body[] ks) {
-            this.ks = ks;
+        public KeyIterator(CosmicSystemMap map) {
+            this.map = map;
+            this.ks = map.ks;
         }
 
         @Override
         public boolean hasNext() {
-            while(curr < ks.length && ks[curr] == null) {
+            while(curr < map.ks.length && map.ks[curr] == null) {
                 curr++;
             }
 
-            return curr < ks.length;
+            return curr < map.ks.length;
         }
 
         @Override
         public Body next() {
+            if(!hasNext()) {
+                throw new NoSuchElementException();
+            }
             return ks[curr++];
+        }
+
+        public void remove() {
+            map.remove(curr-1);
         }
     }
 }

@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.util.Objects;
 
 //This class represents a double-linked list for objects of class 'CosmicComponent'.
@@ -139,6 +140,11 @@ public class ComplexCosmicSystem implements CosmicComponent, CosmicSystemIndex {
         return false;
     }
 
+    @Override
+    public BodyCollection getBodies() {
+        return new MyBodyList(this);
+    }
+
     public Vector3 getMassCenter() {
         return head == null ? new Vector3() : head.getMassCenter().divide(head.getMass());
     }
@@ -158,6 +164,8 @@ public class ComplexCosmicSystem implements CosmicComponent, CosmicSystemIndex {
     public boolean contains(Body b) {
         return this.getParent(b) != null;
     }
+
+
 
     public MyNodeRecursiveCosmicComponent getHead() {
         return this.head;
@@ -207,7 +215,7 @@ public class ComplexCosmicSystem implements CosmicComponent, CosmicSystemIndex {
 
     @Override
     public BodyIterator iterator() {
-        return new MyRecursiveIterator(head);
+        return new MyRecursiveIterator(this);
     }
 
     public static class MyIterator implements BodyIterator {
@@ -341,10 +349,12 @@ public class ComplexCosmicSystem implements CosmicComponent, CosmicSystemIndex {
 
         private MyNodeRecursiveCosmicComponent node;
         private BodyIterator currentIterator;
+        private ComplexCosmicSystem parent;
 
 
-        public MyRecursiveIterator(MyNodeRecursiveCosmicComponent c) {
-            node = c;
+        public MyRecursiveIterator(ComplexCosmicSystem c) {
+            parent = c;
+            node = c.getHead();
             currentIterator = node.val.iterator();
         }
 
@@ -355,11 +365,24 @@ public class ComplexCosmicSystem implements CosmicComponent, CosmicSystemIndex {
 
         @Override
         public Body next() {
+            if(!hasNext()) {
+                throw new NoSuchElementException();
+            }
             if(!currentIterator.hasNext()) {
                 this.node = this.node.next;
-                this.currentIterator = this.node.val.iterator();
+                if(node.getVal() instanceof Body) {
+                    this.currentIterator = ((Body)(this.node.val)).iterator(this.parent);
+                }
+                else {
+                    this.currentIterator = this.node.val.iterator();
+                }
             }
             return currentIterator.next();
+        }
+
+        @Override
+        public void remove() {
+            currentIterator.remove();
         }
     }
 

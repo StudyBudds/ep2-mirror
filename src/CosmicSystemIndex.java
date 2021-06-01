@@ -3,7 +3,7 @@
 // by 'getParent' is the reference to the smallest complex cosmic system to which
 // the body belongs. For example, searching in the entire solar system for 'Io' returns
 // the jupiter system (Jupiter, Io, Europa, Ganymede, Kallisto, ...).
-public interface CosmicSystemIndex {
+public interface CosmicSystemIndex extends BodyIterable {
 
     // Returns the 'ComplexCosmicSystem' (value) with which a
     // body (key) is associated. If 'b' is not contained, 'null'
@@ -14,4 +14,7 @@ public interface CosmicSystemIndex {
     // in the index.
     boolean contains(Body b);
 
+    BodyCollection getBodies();
+
+    int numberOfBodies();
 }
