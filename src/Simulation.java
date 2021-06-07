@@ -1,4 +1,6 @@
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.Arrays;
 
 public class Simulation {
@@ -18,6 +20,13 @@ public class Simulation {
             System.err.println("Error: wrong number of arguments.");
             System.exit(-1);
         }
+        File folder = new File(args[0]);
+        if(!folder.exists() || !folder.isDirectory()) {
+            System.err.println("Error: Folder " + args[0] + "does not exist");
+            System.exit(-1);
+        }
+
+
         // arbitrary initialisation: position opposite to the earth with maximal distance.
         // viewing from z direction movement is counter-clockwise
         Body sun = new Body("Sol",1.989e30,696340e3,new Vector3(0,0,0),new Vector3(0,0,0),StdDraw.YELLOW);
@@ -36,6 +45,8 @@ public class Simulation {
         StdDraw.enableDoubleBuffering();
         StdDraw.clear(StdDraw.BLACK);
 
+
+
         double seconds = 0;
         ComplexCosmicSystem bodies = new ComplexCosmicSystem("Sonnensystem", sun, earth, mercury, venus, mars);
 
@@ -45,7 +56,7 @@ public class Simulation {
             if(!b.getName().equals("Sol")) {
                 try {
                     if (!ReadDataUtil.readConfiguration(b, args[0] + "/" + b.getName() + ".txt", args[1])) {
-                        System.err.println("Error: State not avaible");
+                        System.err.println("Error: State not available");
                         System.exit(-1);
                     }
                 } catch (StateFileNotFoundException | StateFileFormatException io) {
