@@ -4,4 +4,16 @@ public class StateFileFormatException extends IOException {
 
     // TODO: implement class
 
+
+    public StateFileFormatException() {
+    }
+
+    public StateFileFormatException(String message) {
+        super(message);
+    }
+
+    @Override
+    public String getMessage() {
+        return super.getMessage();
+    }
 }

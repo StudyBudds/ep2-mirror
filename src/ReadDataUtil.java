@@ -44,13 +44,13 @@ public class ReadDataUtil {
         try(BufferedReader reader = new BufferedReader(new FileReader(path))) {
             String line;
             boolean foundStart = false;
-            boolean foundEnd = false;
-            while((line = reader.readLine()) != null && !foundEnd) {
-                foundStart = foundStart || line.equals("$$SOE");
-                foundEnd = line.equals("$$EOE");
-                if(!foundEnd && foundStart && !line.equals("$$SOE")) {
-                    String[] splitLine = line.split(",( )?");
-                    LineContent lc = new LineContent(splitLine);
+            while((line = reader.readLine()) != null && !line.equals("$$EOE")) {
+                if(line.equals("$$SOE")) {
+                    foundStart = true;
+                    continue;
+                }
+                if(foundStart) {
+                    LineContent lc = new LineContent(line);
                     if(lc.setData(b,day)) {
                         return true;
                     }
@@ -58,11 +58,11 @@ public class ReadDataUtil {
             }
             return false;
         }
-        catch(FileNotFoundException fnfe) {
-            throw new StateFileNotFoundException();
+        catch(StateFileFormatException | NumberFormatException fe) {
+            throw new StateFileFormatException("File \"" + path + "\" does not have required format");
         }
-        catch(NumberFormatException nfe) {
-            throw new StateFileFormatException();
+        catch(FileNotFoundException fnfe) {
+            throw new StateFileNotFoundException("File \"" + path + "\" not found");
         }
     }
 
@@ -72,7 +72,8 @@ public class ReadDataUtil {
         private Vector3 pos;
         private Vector3 vel;
 
-        public LineContent(String[] lineContent) throws IOException, NumberFormatException {
+        public LineContent(String line) throws IOException, NumberFormatException {
+            String[] lineContent = line.split(",( )?");
             if(lineContent.length != 8) {
                 throw new StateFileFormatException();
             }
@@ -96,8 +97,5 @@ public class ReadDataUtil {
             return false;
         }
     }
-
-
-
 }
 
