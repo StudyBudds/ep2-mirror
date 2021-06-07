@@ -24,6 +24,12 @@ public class MyBodyList implements BodyCollection {
 
     @Override
     public Body[] toArray() {
+//        Body[] bs = new Body[size()];
+//        int i = 0;
+//        for(Body b : this) {
+//            bs[i] = b;
+//        }
+//        return bs;
         return (Body[])StreamSupport.stream(collection.spliterator(), false).toArray();
     }
 

@@ -1,7 +1,7 @@
 import java.util.NoSuchElementException;
 
 // define class
-public class CosmicSystemMap implements BodyIterable, CosmicSystemIndex {
+public class CosmicSystemMap implements CosmicSystemIndex {
 
     private Body[] ks = new Body[65];
     private ComplexCosmicSystem[] vs = new ComplexCosmicSystem[65];
@@ -170,6 +170,7 @@ public class CosmicSystemMap implements BodyIterable, CosmicSystemIndex {
 
     public static class KeyIterator implements BodyIterator {
         private int curr = 0;
+        private int last = -1;
         private final CosmicSystemMap map;
         private final Body[] ks;
 
@@ -181,6 +182,7 @@ public class CosmicSystemMap implements BodyIterable, CosmicSystemIndex {
         @Override
         public boolean hasNext() {
             while(curr < map.ks.length && map.ks[curr] == null) {
+
                 curr++;
             }
 

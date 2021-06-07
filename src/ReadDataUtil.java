@@ -40,11 +40,64 @@ public class ReadDataUtil {
     // thrown. If it does not comply with the format described above, the method throws an
     // exception of the class 'StateFileFormatException'. Both exceptions are subtypes of 'IOException'.
     public static boolean readConfiguration(Body b, String path, String day) throws IOException {
-
-            //TODO: implement method
+        //TODO: implement method
+        try(BufferedReader reader = new BufferedReader(new FileReader(path))) {
+            String line;
+            boolean foundStart = false;
+            boolean foundEnd = false;
+            while((line = reader.readLine()) != null && !foundEnd) {
+                foundStart = foundStart || line.equals("$$SOE");
+                foundEnd = line.equals("$$EOE");
+                if(!foundEnd && foundStart && !line.equals("$$SOE")) {
+                    String[] splitLine = line.split(",( )?");
+                    LineContent lc = new LineContent(splitLine);
+                    if(lc.setData(b,day)) {
+                        return true;
+                    }
+                }
+            }
             return false;
-
+        }
+        catch(FileNotFoundException fnfe) {
+            throw new StateFileNotFoundException();
+        }
+        catch(NumberFormatException nfe) {
+            throw new StateFileFormatException();
+        }
     }
+
+    private static class LineContent {
+        private final double jdtdb;
+        private final String time;
+        private Vector3 pos;
+        private Vector3 vel;
+
+        public LineContent(String[] lineContent) throws IOException, NumberFormatException {
+            if(lineContent.length != 8) {
+                throw new StateFileFormatException();
+            }
+            jdtdb = Double.parseDouble(lineContent[0]);
+            time = lineContent[1];
+            pos = new Vector3(Double.parseDouble(lineContent[2]), 0, 0);
+            pos = pos.plus(new Vector3(0, Double.parseDouble(lineContent[3]), 0));
+            pos = pos.plus(new Vector3(0, 0, Double.parseDouble(lineContent[4])));
+            pos = pos.times(1e3);
+            vel = new Vector3(Double.parseDouble(lineContent[5]), 0, 0);
+            vel = vel.plus(new Vector3(0, Double.parseDouble(lineContent[6]), 0));
+            vel = vel.plus(new Vector3(0, 0, Double.parseDouble(lineContent[7])));
+            vel = vel.times(1e3);
+        }
+
+        public boolean setData(Body b, String date) {
+            if(this.time.contains(date)) {
+                b.setPosVel(pos, vel);
+                return true;
+            }
+            return false;
+        }
+    }
+
+
 
 }
 

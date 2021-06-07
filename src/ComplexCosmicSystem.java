@@ -349,11 +349,12 @@ public class ComplexCosmicSystem implements CosmicComponent, CosmicSystemIndex {
 
         private MyNodeRecursiveCosmicComponent node;
         private BodyIterator currentIterator;
-        private ComplexCosmicSystem parent;
+        private final ComplexCosmicSystem system;
+        private Body lastElem;
 
 
         public MyRecursiveIterator(ComplexCosmicSystem c) {
-            parent = c;
+            system = c;
             node = c.getHead();
             currentIterator = node.val.iterator();
         }
@@ -370,19 +371,19 @@ public class ComplexCosmicSystem implements CosmicComponent, CosmicSystemIndex {
             }
             if(!currentIterator.hasNext()) {
                 this.node = this.node.next;
-                if(node.getVal() instanceof Body) {
-                    this.currentIterator = ((Body)(this.node.val)).iterator(this.parent);
-                }
-                else {
-                    this.currentIterator = this.node.val.iterator();
-                }
+                this.currentIterator = this.node.val.iterator();
             }
-            return currentIterator.next();
+            lastElem = currentIterator.next();
+            return lastElem;
         }
 
         @Override
         public void remove() {
-            currentIterator.remove();
+            if(lastElem == null) {
+                throw new IllegalStateException();
+            }
+            system.getParent(lastElem).remove(lastElem);
+            lastElem = null;
         }
     }
 
