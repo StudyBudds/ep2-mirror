@@ -6,6 +6,7 @@ public class CosmicSystemMap implements CosmicSystemIndex {
     private Body[] ks = new Body[65];
     private ComplexCosmicSystem[] vs = new ComplexCosmicSystem[65];
     private int count = 0;
+    private Body FREE = new Body("free", 0,0,new Vector3(Double.MAX_VALUE,Double.MAX_VALUE,Double.MAX_VALUE), new Vector3(Double.MAX_VALUE,Double.MAX_VALUE,Double.MAX_VALUE), StdDraw.CYAN);
 
     // Creates a hash map from the specified 'system'.
     // The resulting map has multiple (key, value) pairs, one for each
@@ -25,7 +26,18 @@ public class CosmicSystemMap implements CosmicSystemIndex {
             return ks.length - 1;
         }
         int i = k.hashCode() & (ks.length - 2);
-        while (ks[i] != null && !ks[i].equals(k)) {
+        while ((ks[i] != null && !ks[i].equals(FREE)) && !ks[i].equals(k)) {
+            i = (i + 1) & (ks.length - 2);
+        }
+        return i;
+    }
+
+    private int search(Body k) {
+        if (k == null) {
+            return ks.length - 1;
+        }
+        int i = k.hashCode() & (ks.length - 2);
+        while ((ks[i] != null) && !ks[i].equals(k)) {
             i = (i + 1) & (ks.length - 2);
         }
         return i;
@@ -77,11 +89,15 @@ public class CosmicSystemMap implements CosmicSystemIndex {
     }
 
     public ComplexCosmicSystem get(Body k) {
-        return vs[find(k)];
+        return vs[search(k)];
     }
 
     public boolean containsKey(Body k) {
-        return ks[find(k)] != null;
+        return ks[search(k)] != null;
+    }
+
+    public int size() {
+        return count;
     }
 
     @Override
@@ -163,7 +179,7 @@ public class CosmicSystemMap implements CosmicSystemIndex {
             if(this.ks[index] != null) {
                 this.count--;
             }
-            this.ks[index] = null;
+            this.ks[index] = FREE;
             this.vs[index] = null;
         }
     }

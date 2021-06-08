@@ -1,4 +1,8 @@
 import java.io.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class ReadDataUtil {
 
@@ -58,7 +62,7 @@ public class ReadDataUtil {
             }
             return false;
         }
-        catch(StateFileFormatException | NumberFormatException fe) {
+        catch(StateFileFormatException | NumberFormatException | ParseException fe) {
             throw new StateFileFormatException("File \"" + path + "\" does not have required format");
         }
         catch(FileNotFoundException fnfe) {
@@ -67,26 +71,25 @@ public class ReadDataUtil {
     }
 
     private static class LineContent {
-        private final double jdtdb;
-        private final String time;
+        private double jdtdb;
+        private String time;
         private Vector3 pos;
         private Vector3 vel;
-
-        public LineContent(String line) throws IOException, NumberFormatException {
+        //private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("'A.D.' yyyy-MMM-dd HH:mm:ss:SSS'0'", Locale.ENGLISH);
+        public LineContent(String line) throws IOException, NumberFormatException, ParseException {
             String[] lineContent = line.split(",( )?");
             if(lineContent.length != 8) {
                 throw new StateFileFormatException();
             }
             jdtdb = Double.parseDouble(lineContent[0]);
             time = lineContent[1];
-            pos = new Vector3(Double.parseDouble(lineContent[2]), 0, 0);
-            pos = pos.plus(new Vector3(0, Double.parseDouble(lineContent[3]), 0));
-            pos = pos.plus(new Vector3(0, 0, Double.parseDouble(lineContent[4])));
-            pos = pos.times(1e3);
-            vel = new Vector3(Double.parseDouble(lineContent[5]), 0, 0);
-            vel = vel.plus(new Vector3(0, Double.parseDouble(lineContent[6]), 0));
-            vel = vel.plus(new Vector3(0, 0, Double.parseDouble(lineContent[7])));
-            vel = vel.times(1e3);
+            String[] timeSplit = time.split(" ");
+            if(timeSplit.length != 3) {
+                throw new StateFileFormatException();
+            }
+            Date d = Simulation.DATE_FORMAT.parse(timeSplit[1]);
+            pos = new Vector3(Double.parseDouble(lineContent[2]), Double.parseDouble(lineContent[3]), Double.parseDouble(lineContent[4])).times(1e3);
+            vel = new Vector3(Double.parseDouble(lineContent[5]), Double.parseDouble(lineContent[6]), Double.parseDouble(lineContent[7])).times(1e3);
         }
 
         public boolean setData(Body b, String date) {

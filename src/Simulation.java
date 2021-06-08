@@ -1,7 +1,10 @@
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Locale;
 
 public class Simulation {
 
@@ -10,6 +13,8 @@ public class Simulation {
 
     // one astronomical unit (AU) is the average distance of earth to the sun.
     public static final double AU = 150e9;
+
+    public final static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MMM-dd", Locale.ENGLISH);
 
     // all quantities are based on units of kilogram respectively second and meter.
 
@@ -20,6 +25,15 @@ public class Simulation {
             System.err.println("Error: wrong number of arguments.");
             System.exit(-1);
         }
+
+        try {
+            DATE_FORMAT.parse(args[1]);
+        } catch (ParseException e) {
+            System.err.println("Error: State not available");
+            System.exit(-1);
+        }
+
+
         File folder = new File(args[0]);
         if(!folder.exists() || !folder.isDirectory()) {
             System.err.println("Error: Folder " + args[0] + "does not exist");
