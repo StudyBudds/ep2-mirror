@@ -17,7 +17,7 @@ public class ComplexNonNullNode implements ComplexNode {
             return next;
         }
         next = next.remove(c);
-        return null;
+        return this;
     }
 
     @Override
@@ -69,7 +69,12 @@ public class ComplexNonNullNode implements ComplexNode {
 
     @Override
     public String toString() {
-        return "{" + this.comp + "}" + next.toString();
+        return this.comp + (this.hasNext() ? ", " + this.next : "");
+    }
+
+    @Override
+    public int hashCode() {
+        return this.comp.hashCode() + next.hashCode();
     }
 
 }

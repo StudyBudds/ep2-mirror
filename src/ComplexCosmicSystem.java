@@ -7,44 +7,43 @@ import java.util.Objects;
 public class ComplexCosmicSystem implements CosmicComponent, CosmicSystemIndex {
 
     //TODO: Define variables.
-    private String name;
-    private ComplexNode head, tail;
+    private final String name;
+    private ComplexNode head;
     private int size;
 
     public ComplexCosmicSystem(String name, CosmicComponent c1, CosmicComponent c2,
                                CosmicComponent... ci) {
+        // {V}
+        assert c1 != null && c2 != null;
         this.name = name;
-        this.head = tail = ComplexNullNode.NIL;
+        this.head = ComplexNullNode.NIL;
         this.add(c1);
         this.add(c2);
+        // {I}
+        assert ci != null;
         for(CosmicComponent c : ci) {
+            // {I}
+            assert c != null;
             this.add(c);
         }
     }
 
 
-
     public boolean add(CosmicComponent comp) {
-        if(head == ComplexNullNode.NIL) {
-            this.head = this.tail = new ComplexNonNullNode(comp);
-            return true;
-        }
-
+        // {V}
+        assert comp != null;
         if(head.contains(comp)) {
             return false;
         }
-        ComplexNonNullNode newTail = new ComplexNonNullNode(comp);
-        tail.add(newTail);
-        tail = newTail;
+        head = head.add(new ComplexNonNullNode(comp));
         return true;
     }
 
     public boolean remove(CosmicComponent comp) {
+        // {V}
+        assert comp != null;
         if(!head.contains(comp)) {
             return false;
-        }
-        if(this.tail.getValue().equals(comp)) {
-            head.remove(new ComplexNonNullNode(comp));
         }
         this.head = head.remove(new ComplexNonNullNode(comp));
 
@@ -52,6 +51,8 @@ public class ComplexCosmicSystem implements CosmicComponent, CosmicSystemIndex {
     }
 
     public ComplexCosmicSystem getParent(Body b) {
+        // {V}
+        assert b != null;
         ComplexNode current = head;
         while(current != null) {
             if(current.getValue() instanceof Body) { // only works for Body
@@ -71,6 +72,8 @@ public class ComplexCosmicSystem implements CosmicComponent, CosmicSystemIndex {
     }
 
     public boolean contains(Body b) {
+        // {V}
+        assert b != null;
         return this.getParent(b) != null;
     }
 
@@ -147,7 +150,7 @@ public class ComplexCosmicSystem implements CosmicComponent, CosmicSystemIndex {
 
         @Override
         public boolean hasNext() {
-            return node.getNext() != null || currentIterator.hasNext();
+            return node.getNext() != ComplexNullNode.NIL || currentIterator.hasNext();
         }
 
         @Override

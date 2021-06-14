@@ -7,12 +7,12 @@ public class ComplexNullNode implements ComplexNode {
 
     @Override
     public ComplexNode remove(ComplexNonNullNode c) {
-        return null;
+        return this;
     }
 
     @Override
     public ComplexNode add(ComplexNonNullNode c) {
-        return null;
+        return c;
     }
 
     @Override
@@ -51,6 +51,16 @@ public class ComplexNullNode implements ComplexNode {
     @Override
     public boolean contains(CosmicComponent comp) {
         return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return 0;
+    }
+
+    @Override
+    public String toString() {
+        return "";
     }
 
     //TODO: implement.
