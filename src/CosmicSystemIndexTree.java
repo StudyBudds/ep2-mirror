@@ -7,10 +7,14 @@ public class CosmicSystemIndexTree implements CosmicSystemIndex, BodyIterable {
 
     private IndexTreeNode root;
     private BodyComparator comparator;
+    private int size;
 
     // Initialises this index with a 'comparator' for sorting
     // the keys of this index.
     public CosmicSystemIndexTree(BodyComparator comparator) {
+        // {V}
+        assert comparator != null;
+        // {S}
         this.comparator = comparator;
         this.root = IndexTreeNullNode.NIL; // NIL in the beginning.
 
@@ -31,14 +35,29 @@ public class CosmicSystemIndexTree implements CosmicSystemIndex, BodyIterable {
             return false;
         }
 
-        for (Body b: system) {
+        // {I}
+        assert system != null;
+        for (Body b : system) {
+            // {I}
+            assert b != null;
             if (this.contains(b)) {
                 return false;
             }
         }
 
         for (Body b: system) {
+            // {V}
+            assert b != null;
+            // {S}
             root = root.add(new IndexTreeNonNullNode(b, system.getParent(b), comparator));
+            // {N}
+            assert root != null;
+            // {V]
+            assert size >= 0;
+            // {S}
+            size++;
+            // {N}
+            assert size > 0;
         }
 
         return true;
@@ -49,19 +68,25 @@ public class CosmicSystemIndexTree implements CosmicSystemIndex, BodyIterable {
     // associated. If body is not contained as a key, 'null'
     // is returned.
     public ComplexCosmicSystem getParent(Body body) {
-
+        // {V}
+        assert body != null && root != null;
+        // {S}
         return root.get(body);
     }
 
     // Returns 'true' if the specified 'body' is listed
     // in the index.
     public boolean contains(Body body) {
+        // {V}
+        assert body != null;
+        // {S}
         return getParent(body) != null;
     }
 
     // Returns a readable representation with (key, value) pairs sorted by the key.
     public String toString() {
-
+        // {V}
+        assert root != null;
         return "{" + root.toString() + "}";
     }
 
@@ -84,8 +109,14 @@ public class CosmicSystemIndexTree implements CosmicSystemIndex, BodyIterable {
         return new TreeBodyCollection(this);
     }
 
-    public int size() {
+    @Override
+    public int numberOfBodies() {
+        return size;
+    }
 
+    public int size() {
+        // {V}
+        assert root != null;
         return root.size();
     }
 }
@@ -95,25 +126,34 @@ interface IndexTreeNode {
     // Adds the specified 'node' to the tree of which 'this' is the root
     // node. If the tree already has a node with the same key as that
     // of 'node' the tree remains unchanged.
+    // {V}: node != null
+    // {N}: added node to this tree if node has not the same key as this.node
     IndexTreeNode add(IndexTreeNode node);
 
     // Returns the cosmic system with which a body is associated, if 'body' is a key
     // which is contained in this tree (the tree of which 'this' is the root node).
     // If body is not contained as a key, 'null' is returned.
+    // {V}: body != null
+    // {N}: Tree doesn't change
     ComplexCosmicSystem get(Body body);
 
     // Returns a readable representation of the tree of which 'this' is the root node.
+    // {N}: Tree doesn't change
     String toString();
 
     // Returns an iterator over all keys of the tree of which 'this' is the root node.
     // 'parent' is the iterator of the parent (path from the root).
+    // {V}: parent != null
+    // {N}: Tree doesn't change
     TreeNodeIterator iterator(TreeNodeIterator parent);
 
     // Returns the key of this node.
+    // {N}: Tree doesn't change
     Body getKey();
 
     // Returns the number of entries in the tree of which 'this' is the root
     // node.
+    // {N}: Tree doesn't change
     int size();
 
 }
@@ -127,26 +167,37 @@ class IndexTreeNullNode implements IndexTreeNode {
     // private to avoid object creation from outside
     private IndexTreeNullNode() {}
 
+    // nicht wie die nachbedingung in IndexTreeNode da sich der subtree nicht ändert, unabhängig vom inhalt von node
     public IndexTreeNode add(IndexTreeNode node) {
+        // {V}
+        assert node != null;
         return node;
     }
 
+    // {N}: Tree doesn't change
     public ComplexCosmicSystem get(Body body) {
+        // {V}
+        assert body != null;
         return null;
     }
 
+    // {N}: Tree doesn't change
     public String toString() {
         return "";
     }
 
     public TreeNodeIterator iterator(TreeNodeIterator parent) {
+        // {V}
+        assert parent != null;
         return parent;
     }
 
+    // {N}: Tree doesn't change
     public Body getKey() {
         return null;
     }
 
+    // {N}: Tree doesn't change
     public int size() { return 0; }
 
 }
@@ -169,7 +220,13 @@ class IndexTreeNonNullNode implements IndexTreeNode {
 
     }
 
+
+
+    // {N}: added node to this tree if node has not the same key as this.node
     public IndexTreeNode add(IndexTreeNode node) {
+        // {V}: strenger als Supertyp
+        assert node != null && left != null && right != null && comparator != null;
+        // {V} if (this.key == node.getKey()) comp == 0
         int comp = this.comparator.compare(this.key, node.getKey());
         if (comp > 0) {
             left = left.add(node);
@@ -183,6 +240,8 @@ class IndexTreeNonNullNode implements IndexTreeNode {
     }
 
     public ComplexCosmicSystem get(Body body) {
+        // {V}: strenger als Supertyp
+        assert body != null && left != null && right != null && comparator != null;
         if (key.equals(body)) {
             return cs;
         }
@@ -195,7 +254,10 @@ class IndexTreeNonNullNode implements IndexTreeNode {
 
     }
 
+    // {N}: Tree doesn't change
     public String toString() {
+        // {V}: strenger als Supertyp
+        assert left != null && right != null;
         String result;
         String right = this.right.toString();
         result = this.left.toString();
@@ -207,19 +269,22 @@ class IndexTreeNonNullNode implements IndexTreeNode {
 
     }
 
+    // {N}: Tree doesn't change
     public Body getKey() {
         return key;
     }
 
     public TreeNodeIterator iterator(TreeNodeIterator next) {
+        // {V}: left != null
         return left.iterator(new TreeNodeIterator(this, next));
-
     }
 
     public TreeNodeIterator nextStep(TreeNodeIterator next) {
+        // {V}: right != null
         return right.iterator(next);
     }
 
+    // {N}: Tree doesn't change
     public int size() { return 1 + left.size() + right.size(); }
 
 }
@@ -239,8 +304,10 @@ class TreeNodeIterator implements BodyIterator {
     }
 
     @Override
+    // {V}: node != null && node.getKey() != null
     public Body next() {
         if (hasNext()) {
+            assert node != null && node.getKey() != null;
             Body key = node.getKey();
             next = node.nextStep(next);
             node = next.node;
@@ -277,10 +344,12 @@ class TreeBodyCollection implements BodyCollection {
         Body[] result = new Body[tree.size()];
 
         BodyIterator it = tree.iterator();
-
+        assert it != null;
         for (int i = 0; i < result.length; i++) {
 
             result[i] = it.next();
+            // {I}
+            assert result[i] != null;
         }
 
         return result;
