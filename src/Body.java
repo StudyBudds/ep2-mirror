@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.util.Objects;
 
 // This class represents celestial bodies like stars, planets, asteroids, etc..
@@ -164,6 +165,9 @@ public class Body implements CosmicComponent, Cluster {
 
         @Override
         public Body next() {
+            if(!hasNext()) {
+                throw new NoSuchElementException("no element");
+            }
             oneTime = false;
             return value;
         }
