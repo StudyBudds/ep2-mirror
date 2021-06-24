@@ -99,7 +99,7 @@ public class Body implements CosmicComponent, Cluster {
         try {
             return new BalancedSystem(this,c);
         } catch (BalancedSystemIllegalArgumentException e) {
-            System.err.println(e);
+            //System.err.println(e);
         }
         return this;
     }
