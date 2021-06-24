@@ -4,7 +4,7 @@ import java.util.NoSuchElementException;
 import java.util.Objects;
 
 // This class represents celestial bodies like stars, planets, asteroids, etc..
-public class Body implements CosmicComponent {
+public class Body implements CosmicComponent, Cluster {
 
     private static final double EPSILON = 0.0000001;
 
@@ -96,8 +96,31 @@ public class Body implements CosmicComponent {
     }
 
     @Override
+    public Cluster add(Body b) {
+        try {
+            if(b.getRadius() >= this.getRadius()) {
+                return new DoubleSystem(b,this);
+            }
+            return new DoubleSystem(this,b);
+        }
+        catch (DoubleSystemIllegalArgumentException e) {
+        }
+        return this;
+    }
+
+    @Override
+    public Body getLargest() {
+        return this;
+    }
+
+    @Override
     public int numberOfBodies() {
         return 1;
+    }
+
+    @Override
+    public double getRadius() {
+        return this.radius;
     }
 
     @Override
