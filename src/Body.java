@@ -1,9 +1,10 @@
 import java.awt.*;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.util.Objects;
 
 // This class represents celestial bodies like stars, planets, asteroids, etc..
-public class Body implements CosmicComponent {
+public class Body implements CosmicComponent, Cluster {
 
     private static final double EPSILON = 0.0000001;
 
@@ -95,8 +96,27 @@ public class Body implements CosmicComponent {
     }
 
     @Override
+    public Cluster add(Body b) {
+        try {
+            if (this.getMainMass() >= b.getMainMass()) {
+                return new DualSystem(this, b);
+            }
+            return new DualSystem(b, this);
+        }
+        catch (DualSystemIllegalArgumentException e) {
+            assert false;
+        }
+        return this;
+    }
+
+    @Override
     public int numberOfBodies() {
         return 1;
+    }
+
+    @Override
+    public double getMainMass() {
+        return mass;
     }
 
     @Override
@@ -142,7 +162,6 @@ public class Body implements CosmicComponent {
         private boolean oneTime = true;
         private final Body value;
 
-
         public OneTimeIterator(Body val) {
             this.value = val;
         }
@@ -154,6 +173,9 @@ public class Body implements CosmicComponent {
 
         @Override
         public Body next() {
+            if(!hasNext()) {
+                throw new NoSuchElementException("already called");
+            }
             oneTime = false;
             return value;
         }
