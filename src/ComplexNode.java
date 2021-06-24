@@ -1,4 +1,3 @@
-//TODO: comment.
 public interface ComplexNode {
 
     ComplexNode remove(ComplexNonNullNode c);

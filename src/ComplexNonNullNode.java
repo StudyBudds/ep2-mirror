@@ -1,4 +1,4 @@
-//TODO: comment.
+
 public class ComplexNonNullNode implements ComplexNode {
 
     private final CosmicComponent comp;

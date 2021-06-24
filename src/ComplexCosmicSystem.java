@@ -6,7 +6,6 @@ import java.util.Objects;
 //This class represents a double-linked list for objects of class 'CosmicComponent'.
 public class ComplexCosmicSystem implements CosmicComponent, CosmicSystemIndex {
 
-    //TODO: Define variables.
     private final String name;
     private ComplexNode head;
     private int size;
@@ -176,5 +175,3 @@ public class ComplexCosmicSystem implements CosmicComponent, CosmicSystemIndex {
         }
     }
 }
-
-//TODO: Define additional class(es) implementing the double-linked list (either here or outside class).

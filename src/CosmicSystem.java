@@ -5,13 +5,11 @@ import java.util.function.Consumer;
 //This class represents a linked list for objects of class 'Body'
 public class CosmicSystem implements Iterable<Body>{
 
-    //TODO: Define variables.
     private String name;
     private MyLinkedList bodies;
 
     // Initialises this system as an empty system with a name.
     public CosmicSystem(String name) {
-        //TODO: implement constructor.
         this(name, new MyLinkedListIterative());
         //this(name, new MyLinkedListRecursive());
         this.name = name;
@@ -87,7 +85,6 @@ public class CosmicSystem implements Iterable<Body>{
     //removes a body from the list, if the list contains a body with the same name as the input body
     //returns true if removal was done, and false otherwise (no body with the same name)
     public boolean remove(Body body) {
-        //TODO: implement method.
         return this.bodies.remove(body);
     }
 

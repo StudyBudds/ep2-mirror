@@ -1,4 +1,3 @@
-//TODO: comment.
 public class ComplexNullNode implements ComplexNode {
 
     public static final ComplexNode NIL = new ComplexNullNode();
@@ -62,7 +61,5 @@ public class ComplexNullNode implements ComplexNode {
     public String toString() {
         return "";
     }
-
-    //TODO: implement.
 
 }

@@ -5,8 +5,6 @@ public class CosmicSystemTree {
     public static final int WIDTH = 1400;
     public static final int HEIGHT = 1000;
 
-
-    //TODO: Define variables.
     private MyTreeNode root;
 
     // Adds a system of bodies to the tree. Since the keys of the tree are the names of bodies,
@@ -83,7 +81,6 @@ public class CosmicSystemTree {
         StdDraw.show();
     }
 
-    //TODO: Define additional class(es) implementing the binary tree (either here or outside class).
     public class MyTreeNode {
         private String key;
         private CosmicSystem value;
